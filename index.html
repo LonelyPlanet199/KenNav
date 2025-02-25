@@ -7,6 +7,63 @@
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <title>首页</title>
   <style>
+    /* 根变量定义，支持明暗模式切换 */
+    :root {
+      /* 亮模式 */
+      --bg-light: #f6f8fd;
+      --bg-gradient-light: linear-gradient(135deg, #f6f8fd, #f0f3fa);
+      --container-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+      --container-before-light: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      --text-color: #333;
+      --secondary-text-color: #666;
+      --button-bg: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --button-hover-bg: linear-gradient(135deg, #4f46e5, #7c3aed);
+      --modal-bg: white;
+      --border-color: #ddd;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --header-bg: rgba(99, 102, 241, 0.1);
+      --header-hover-bg: rgba(99, 102, 241, 0.2);
+      --action-bg: rgba(99, 102, 241, 0.1);
+      --action-hover-bg: rgba(99, 102, 241, 0.2);
+      --cancel-bg: #f3f4f6;
+      --cancel-hover-bg: #e5e7eb;
+      --save-bg: #6366f1;
+      --save-hover-bg: #4f46e5;
+      --toggle-bg: #e2e8f0;
+      --toggle-active-bg: #6366f1;
+      --toggle-thumb: #fff;
+      --search-bg: #fff;
+      --search-text-color: #333;
+    }
+
+    /* 暗模式 */
+    [data-theme="dark"], .dark-mode {
+      --bg-light: #1a202c;
+      --bg-gradient-light: linear-gradient(135deg, #1a202c, #2d3748);
+      --container-bg-light: linear-gradient(135deg, rgba(36, 41, 54, 0.8), rgba(36, 41, 54, 0.6));
+      --container-before-light: linear-gradient(135deg, rgba(67, 56, 202, 0.05), rgba(88, 28, 135, 0.05));
+      --text-color: #e2e8f0;
+      --secondary-text-color: #a0aec0;
+      --button-bg: linear-gradient(135deg, #4338ca, #582c87);
+      --button-hover-bg: linear-gradient(135deg, #3730a3, #4a1d80);
+      --modal-bg: #2d3748;
+      --border-color: #4a5568;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --header-bg: rgba(67, 56, 202, 0.1);
+      --header-hover-bg: rgba(67, 56, 202, 0.2);
+      --action-bg: rgba(67, 56, 202, 0.1);
+      --action-hover-bg: rgba(67, 56, 202, 0.2);
+      --cancel-bg: #4a5568;
+      --cancel-hover-bg: #2d3748;
+      --save-bg: #4338ca;
+      --save-hover-bg: #3730a3;
+      --toggle-bg: #4a5568;
+      --toggle-active-bg: #4338ca;
+      --toggle-thumb: #e2e8f0;
+      --search-bg: #2d3748; /* 暗模式下搜索框背景改为深色 */
+      --search-text-color: #e2e8f0; /* 暗模式下文字颜色为白色 */
+    }
+
     /* 全局样式 */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,21 +73,24 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #f6f8fd, #f0f3fa);
-      color: #333;
-      -webkit-touch-callout: none;  /* 禁止长按菜单 */
-      -webkit-user-select: none;    /* Safari */
-      -khtml-user-select: none;     /* Konqueror HTML */
-      -moz-user-select: none;       /* Firefox */
-      -ms-user-select: none;        /* Internet Explorer/Edge */
-      user-select: none;            /* 非前缀版本 */
+      background: var(--bg-gradient-light);
+      color: var(--text-color);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      transition: all 0.3s ease;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
-    /* 容器样式 */
     .container {
       text-align: center;
       backdrop-filter: blur(20px);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+      background: var(--container-bg-light);
       padding: 1rem;
       width: 100%;
       height: 100vh;
@@ -45,11 +105,10 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      background: var(--container-before-light);
       z-index: -1;
     }
 
-    /* 标题样式 */
     h2 {
       font-size: 2rem;
       margin: 1rem 0 1.5rem;
@@ -60,7 +119,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* 标签导航样式 */
     .tabs-container {
       width: 100%;
       max-width: 1200px;
@@ -69,7 +127,6 @@
       box-sizing: border-box;
     }
 
-    /* 修改标签导航样式 */
     .tabs {
       display: flex;
       flex-wrap: wrap;
@@ -84,12 +141,10 @@
       min-width: 200px;
     }
 
-    /* 移除原来的背景滑块 */
     .tabs::before {
       display: none;
     }
 
-    /* 修改标签样式 */
     .tab {
       position: relative;
       padding: 0.7rem 1.2rem;
@@ -97,7 +152,7 @@
       cursor: pointer;
       border-radius: 12px;
       font-weight: 500;
-      color: #666;
+      color: var(--secondary-text-color);
       min-width: 70px;
       text-align: center;
       margin: 0.2rem;
@@ -107,59 +162,54 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 选中状态样式 */
     .tab.active {
       color: #fff;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: var(--button-bg);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 4px 12px var(--shadow-color);
     }
 
-    /* 悬停效果 */
     .tab:hover:not(.active) {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
       color: #6366f1;
       transform: translateY(-1px);
     }
 
-    /* 点击效果 */
     .tab:active {
       transform: translateY(0);
     }
 
-    /* 内容区域样式 */
     .nav-links-container {
       flex: 1;
-      overflow: hidden;  /* 改为 hidden */
+      overflow: hidden;
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      position: relative;  /* 添加相对定位 */
+      position: relative;
     }
 
     .content-wrapper {
       height: 100%;
       overflow-y: auto;
-      overflow-x: hidden;  /* 添加横向隐藏 */
+      overflow-x: hidden;
       padding-top: 1rem;
     }
 
     .content {
       display: none;
       padding: 0 1rem 1rem;
-      width: 100%;  /* 确保内容宽度为100% */
-      box-sizing: border-box;  /* 添加盒模型设置 */
-      position: absolute;  /* 使用绝对定位 */
+      width: 100%;
+      box-sizing: border-box;
+      position: absolute;
       left: 0;
       top: 0;
     }
 
     .content.active {
       display: block;
-      position: relative;  /* 活动内容使用相对定位 */
+      position: relative;
     }
 
-    /* 按钮网格布局 */
     .button-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -171,19 +221,18 @@
       height: auto;
     }
 
-    /* 按钮样式 */
     .button {
       display: inline-flex;
       align-items: center;
       padding: 0.8rem 1.2rem;
       font-size: 1.05rem;
       color: #fff;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: var(--button-bg);
       border: none;
       border-radius: 12px;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 4px 12px var(--shadow-color);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-weight: 500;
       width: 100%;
@@ -205,16 +254,15 @@
 
     .button:hover {
       transform: translateY(-4px) !important;
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      box-shadow: 0 8px 24px var(--shadow-color);
+      background: var(--button-hover-bg);
     }
 
     .button:active {
       transform: translateY(-2px) !important;
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 6px 16px var(--shadow-color);
     }
 
-    /* 添加按钮内容容器 */
     .button span {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -222,7 +270,6 @@
       margin-left: 0.5rem;
     }
 
-    /* 滚动条样式 */
     .content-wrapper::-webkit-scrollbar {
       width: 6px;
     }
@@ -236,55 +283,30 @@
       background: rgba(0, 0, 0, 0.25);
     }
 
-    /* 动画效果 */
     @keyframes slideInRight {
-      from { 
-        transform: translateX(30px); 
-        opacity: 0; 
-      }
-      to { 
-        transform: translateX(0); 
-        opacity: 1; 
-      }
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     @keyframes slideInLeft {
-      from { 
-        transform: translateX(-30px); 
-        opacity: 0; 
-      }
-      to { 
-        transform: translateX(0); 
-        opacity: 1; 
-      }
+      from { transform: translateX(-30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     @keyframes slideOutRight {
-      from { 
-        transform: translateX(0); 
-        opacity: 1; 
-      }
-      to { 
-        transform: translateX(30px); 
-        opacity: 0; 
-      }
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(30px); opacity: 0; }
     }
 
     @keyframes slideOutLeft {
-      from { 
-        transform: translateX(0); 
-        opacity: 1; 
-      }
-      to { 
-        transform: translateX(-30px); 
-        opacity: 0; 
-      }
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(-30px); opacity: 0; }
     }
 
     .content[class*="slide-"] {
       display: block;
       animation: 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      width: 100%;  /* 确保动画时内容宽度为100% */
+      width: 100%;
     }
 
     .content.slide-in-right { animation-name: slideInRight; }
@@ -292,108 +314,33 @@
     .content.slide-out-right { animation-name: slideOutRight; }
     .content.slide-out-left { animation-name: slideOutLeft; }
 
-    /* 响应式布局 */
     @media (max-width: 768px) {
-      .container { 
-        padding: 0.5rem;
-      }
-      
-      .header {
-        padding: 0.5rem;
-      }
-
-      .main-content {
-        padding: 0.5rem;
-        height: calc(100vh - 60px);
-      }
-      
-      .search-container {
-        margin-bottom: 1.5rem !important;
-      }
-
-      .content-wrapper { 
-        height: calc(100vh - 180px);
-        margin-top: 0rem;
-      }
-      
-      .button-grid {
-        gap: 0.6rem;
-        padding: 0.5rem;
-      }
-      
-      .quick-link {
-        padding: 0.6rem 1rem;
-        height: 2.6rem;
-      }
+      .container { padding: 0.5rem; }
+      .header { padding: 0.5rem; }
+      .main-content { padding: 0.5rem; height: calc(100vh - 60px); }
+      .search-container { margin-bottom: 1.5rem !important; }
+      .content-wrapper { height: calc(100vh - 180px); margin-top: 0rem; }
+      .button-grid { gap: 0.6rem; padding: 0.5rem; }
+      .quick-link { padding: 0.6rem 1rem; height: 2.6rem; }
     }
 
     @media (max-width: 480px) {
-      .container {
-        padding: 0.3rem;
-      }
-      
-      .header {
-        padding: 0.3rem;
-      }
-
-      .main-content {
-        padding: 0.3rem !important;
-        gap: 0 !important;
-      }
-      
-      .content-wrapper {
-        height: calc(100vh - 210px);
-        margin-top: 1rem;
-        padding-top: 0;
-      }
-      
-      .button-grid {
-        gap: 0.6rem;
-        padding: 0.4rem;
-      }
-
-      .header-actions {
-        gap: 0.4rem;
-      }
-
-      .action-button, .header-button {
-        padding: 0.4rem;
-      }
-
-      .action-button {
-        font-size: 0.9rem;
-      }
-
-      /* 搜索框样式 */
-      .search-container {
-        padding: 0.2rem !important;
-      }
-
-      .search-box {
-        padding: 0.6rem;
-        padding-left: 0;
-        font-size: 0.95rem;
-      }
-
-      .search-engine {
-        padding: 0.4rem 0.6rem;
-      }
-
-      /* 移动端标签样式 */
-      .tabs {
-        display: none !important;
-      }
-      
-      .mobile-tabs-select {
-        display: block !important;
-      }
-      
-      .tabs::before {
-        display: none;
-      }
+      .container { padding: 0.3rem; }
+      .header { padding: 0.3rem; }
+      .main-content { padding: 0.3rem !important; gap: 0 !important; }
+      .content-wrapper { height: calc(100vh - 210px); margin-top: 1rem; padding-top: 0; }
+      .button-grid { gap: 0.6rem; padding: 0.4rem; }
+      .header-actions { gap: 0.4rem; }
+      .action-button, .header-button { padding: 0.4rem; }
+      .action-button { font-size: 0.9rem; }
+      .search-container { padding: 0.2rem !important; }
+      .search-box { padding: 0.6rem; padding-left: 0; font-size: 0.95rem; }
+      .search-engine { padding: 0.4rem 0.6rem; }
+      .tabs { display: none !important; }
+      .mobile-tabs-select { display: block !important; }
+      .tabs::before { display: none; }
     }
 
-    /* 修改搜索框容器样式 */
     .search-container {
       margin: 0 auto 2rem;
       width: 100%;
@@ -404,22 +351,21 @@
       align-items: center;
       background: rgba(255, 255, 255, 0.9);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-color);
       box-sizing: border-box;
       padding: 0.3rem;
       gap: 0.3rem;
     }
 
-    /* 搜索引擎选择器样式 */
     .search-engine {
-      order: -1; /* 将搜索引擎按钮移到最前面 */
+      order: -1;
       display: flex;
       align-items: center;
       gap: 0.3rem;
       padding: 0.5rem 0.8rem;
       background: none;
       border: none;
-      color: #666;
+      color: var(--secondary-text-color);
       cursor: pointer;
       transition: all 0.3s ease;
       white-space: nowrap;
@@ -433,19 +379,18 @@
       color: #4f46e5;
     }
 
-    /* 搜索框样式 */
     .search-box {
       flex: 1;
       padding: 0.8rem;
       padding-left: 0;
       font-size: 1.1rem;
       border: none;
-      background: none;
+      background: var(--search-bg);
       outline: none;
-      min-width: 0; /* 允许输入框缩小 */
+      min-width: 0;
+      color: var(--search-text-color);
     }
 
-    /* 搜索按钮样式 */
     .search-button {
       padding: 0.5rem;
       background: none;
@@ -461,70 +406,46 @@
       background: rgba(0, 0, 0, 0.05);
     }
 
-    /* 响应式调整 */
     @media (max-width: 480px) {
-      .search-container {
-        padding: 0.2rem;
-        gap: 0.2rem;
-      }
-
-      .search-engine {
-        padding: 0.4rem 0.6rem;
-      }
-
-      .search-box {
-        padding: 0.6rem;
-        padding-left: 0;
-        font-size: 1rem;
-      }
-
-      .search-button {
-        padding: 0.4rem;
-      }
-
-      #currentEngineIcon {
-        font-size: 1rem;
-      }
-
-      #currentEngineName {
-        font-size: 0.9rem;
-      }
+      .search-container { padding: 0.2rem; gap: 0.2rem; }
+      .search-engine { padding: 0.4rem 0.6rem; }
+      .search-box { padding: 0.6rem; padding-left: 0; font-size: 1rem; }
+      .search-button { padding: 0.4rem; }
+      #currentEngineIcon { font-size: 1rem; }
+      #currentEngineName { font-size: 0.9rem; }
     }
 
-    #currentEngineIcon {
-      font-size: 1.1rem;
-    }
+    #currentEngineIcon { font-size: 1.1rem; }
+    #currentEngineName { font-size: 0.95rem; }
 
-    #currentEngineName {
-      font-size: 0.95rem;
-    }
-
-    /* 搜索引擎下拉菜单 */
     .engine-dropdown {
       position: absolute;
-      left: 0.5rem;  /* 调整下拉菜单位置 */
+      left: 0.5rem;
       top: calc(100% + 0.5rem);
-      background: white;
+      background: var(--modal-bg);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-color);
       padding: 0.5rem;
       display: none;
       z-index: 1000;
       min-width: 150px;
+      max-height: 200px;
+      overflow-y: auto;
     }
 
     .engine-option {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       padding: 0.8rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-color);
     }
 
     .engine-option:hover {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
     }
 
-    /* 确保下拉菜单显示/隐藏的样式存在 */
     .engine-dropdown.show {
       display: block;
       animation: fadeIn 0.2s ease;
@@ -535,7 +456,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 新增样式 */
     .header {
       display: flex;
       justify-content: space-between;
@@ -543,6 +463,7 @@
       padding: 0 2rem;
       width: 100%;
       box-sizing: border-box;
+      position: relative;
     }
 
     .logo {
@@ -551,12 +472,13 @@
       background: linear-gradient(135deg, #ff6f61, #48c6ef);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      position: relative;
     }
 
     .bookmarks-link {
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: var(--button-bg);
       color: white;
       text-decoration: none;
       font-weight: 500;
@@ -565,19 +487,17 @@
 
     .bookmarks-link:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 4px 12px var(--shadow-color);
     }
 
-    /* 修改主内容区域样式 */
     .main-content {
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 80px); /* 减去header的高度 */
+      height: calc(100vh - 80px);
       padding: 1rem 2rem;
       overflow: hidden;
     }
 
-    /* 修改快速访问区域样式 */
     .quick-access {
       flex: 1;
       display: flex;
@@ -588,19 +508,18 @@
       margin: 0 auto;
     }
 
-    /* 修改快速访问列表的布局样式 */
     .quick-links {
       overflow-y: auto;
       padding: 1rem;
       background: rgba(255, 255, 255, 0.5);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 12px var(--shadow-color);
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 0.8rem;
       margin-right: 4px;
-      height: 100%; /* 使用固定高度而不是 flex */
-      align-content: start; /* 让网格从顶部开始排列 */
+      height: 100%;
+      align-content: start;
     }
 
     .quick-access-header {
@@ -608,7 +527,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
-      flex-shrink: 0; /* 防止头部被压缩 */
+      flex-shrink: 0;
     }
 
     .quick-access-actions {
@@ -618,7 +537,7 @@
 
     .action-button {
       padding: 0.5rem;
-      background: none;
+      background: var(--action-bg);
       border: none;
       cursor: pointer;
       color: #6366f1;
@@ -630,15 +549,15 @@
     }
 
     .action-button:hover {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-hover-bg);
       transform: translateY(-2px);
     }
 
     .action-button span {
       font-size: 0.9rem;
+      color: var(--text-color);
     }
 
-    /* 添加按钮内容容器 */
     .button-content {
       display: flex;
       flex-direction: column;
@@ -651,33 +570,35 @@
     .edit-text, .done-text {
       font-size: 0.9rem;
       font-weight: 500;
+      color: var(--text-color);
     }
 
     .action-button svg {
       width: 16px;
       height: 16px;
+      color: #6366f1;
     }
 
     .action-button:hover {
-      background: rgba(99, 102, 241, 0.2);
+      background: var(--action-hover-bg);
       transform: translateY(-2px);
     }
 
     .action-button.editing {
-      background: rgba(99, 102, 241, 0.2);
+      background: var(--action-hover-bg);
     }
 
     .quick-link {
       display: inline-flex;
       align-items: center;
-      padding: 0.8rem 1rem;  /* 减小内边距 */
+      padding: 0.8rem 1rem;
       font-size: 1rem;
       color: #fff;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: var(--button-bg);
       border-radius: 12px;
       text-decoration: none;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 4px 12px var(--shadow-color);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-weight: 500;
       width: 100%;
@@ -686,14 +607,14 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      height: 2.8rem;  /* 减小高度 */
+      height: 2.8rem;
       position: relative;
     }
 
     .quick-link:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      box-shadow: 0 8px 24px var(--shadow-color);
+      background: var(--button-hover-bg);
     }
 
     .quick-link-content {
@@ -733,7 +654,6 @@
       white-space: nowrap;
     }
 
-    /* 修改编辑和删除按钮的样式 */
     .edit-action-button {
       width: 28px;
       height: 28px;
@@ -747,25 +667,22 @@
       transition: all 0.2s ease;
     }
 
-    /* 编辑按钮样式 - 使用较柔和的蓝绿色 */
     .edit-action-button.edit {
-      background: #0ea5e9;  /* 明亮的青色 */
+      background: #0ea5e9;
     }
 
     .edit-action-button.edit:hover {
       background: #0284c7;
     }
 
-    /* 删除按钮样式 - 使用较柔和的玫瑰红 */
     .edit-action-button.delete {
-      background: #f43f5e;  /* 玫瑰红 */
+      background: #f43f5e;
     }
 
     .edit-action-button.delete:hover {
       background: #e11d48;
     }
 
-    /* 调整按钮组的背景 */
     .edit-actions {
       position: absolute;
       right: 0.5rem;
@@ -779,12 +696,10 @@
       backdrop-filter: blur(8px);
     }
 
-    /* 添加这个类来显示编辑按钮 */
     .quick-link.editing .edit-actions {
       display: flex;
     }
 
-    /* 调整图标颜色和大小 */
     .edit-action-button svg {
       stroke: white;
       stroke-width: 2.2;
@@ -792,17 +707,15 @@
       height: 15px;
     }
 
-    /* 添加按钮阴影效果 */
     .edit-action-button {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 4px var(--shadow-color);
     }
 
     .edit-action-button:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 6px var(--shadow-color);
       transform: translateY(-1px);
     }
 
-    /* 修改弹窗样式 */
     .modal {
       display: none;
       position: fixed;
@@ -817,79 +730,57 @@
       box-sizing: border-box;
     }
 
-    /* 修改 modal-content 样式 */
     .modal-content {
-      background: white;
+      background: var(--modal-bg);
       padding: 1.5rem;
       border-radius: 12px;
       width: 90%;
-      max-width: 500px; /* 增加最大宽度 */
-      max-height: 90vh; /* 添加最大高度 */
-      overflow-y: auto; /* 添加垂直滚动 */
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px var(--shadow-color);
       display: flex;
       flex-direction: column;
     }
 
-    /* 移动端样式调整 */
     @media (max-width: 768px) {
-      .modal {
-        padding: 1rem;
-      }
-
-      .modal-content {
-        width: calc(100% - 2rem);
-        max-height: 80vh;
-        padding: 1.2rem;
-      }
-
-      .header {
-        padding: 0.4rem 1rem;
-      }
+      .modal { padding: 1rem; }
+      .modal-content { width: calc(100% - 2rem); max-height: 80vh; padding: 1.2rem; }
+      .header { padding: 0.4rem 1rem; }
     }
 
-    /* 小屏幕手机样式调整 */
     @media (max-width: 480px) {
-      .modal-content {
-        width: calc(100% - 2rem);
-        padding: 1rem;
-      }
-
-      .header {
-        padding: 0.4rem 1rem;
-      }
+      .modal-content { width: calc(100% - 2rem); padding: 1rem; }
+      .header { padding: 0.4rem 1rem; }
     }
 
     @media (max-width: 360px) {
-      .action-button {
-        padding: 0;
-      }
+      .action-button { padding: 0; }
     }
 
-    /* 图标输入组样式 */
     .icon-input-group {
       display: flex;
       gap: 0.5rem;
     }
 
-    /* Select 组件样式 */
     .form-group select {
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.8rem center;
       background-size: 14px;
       padding: 0.8rem;
       padding-right: 2.5rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
-      color: #333;
+      color: var(--text-color);
       width: 100%;
       box-sizing: border-box;
       cursor: pointer;
+      background: var(--modal-bg);
       transition: all 0.3s ease;
     }
 
@@ -903,7 +794,6 @@
       box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
     }
 
-    /* 图标选择下拉框特殊样式 */
     .icon-input-group select {
       width: auto;
       min-width: 100px;
@@ -916,7 +806,7 @@
       gap: 0.5rem;
       margin-top: 0.5rem;
       padding: 0.5rem;
-      background: #f9fafb;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
     }
 
@@ -936,10 +826,9 @@
     }
 
     .emoji-item:hover {
-      background: #f3f4f6;
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    /* 自定义滚动条样式 */
     .quick-links::-webkit-scrollbar {
       width: 8px;
     }
@@ -958,51 +847,25 @@
       background: rgba(99, 102, 241, 0.5);
     }
 
-    /* 响应式调整 */
     @media (max-width: 768px) {
-      .main-content {
-        padding: 1rem;
-      }
-      
-      .quick-links {
-        grid-template-columns: 1fr;
-        gap: 0.7rem;
-        padding: 0.8rem;
-      }
-
-      .quick-link {
-        height: 3rem;
-      }
-
-      .edit-actions {
-        padding: 0.4rem;
-        gap: 0.5rem;
-      }
-
-      .edit-action-button {
-        width: 32px;
-        height: 32px;
-      }
+      .main-content { padding: 1rem; }
+      .quick-links { grid-template-columns: 1fr; gap: 0.7rem; padding: 0.8rem; }
+      .quick-link { height: 3rem; }
+      .edit-actions { padding: 0.4rem; gap: 0.5rem; }
+      .edit-action-button { width: 32px; height: 32px; }
     }
 
     @media (max-width: 480px) {
-      .main-content {
-        padding: 0.8rem;
-      }
-      
-      .quick-links {
-        gap: 0.6rem;
-        padding: 0.6rem;
-      }
+      .main-content { padding: 0.8rem; }
+      .quick-links { gap: 0.6rem; padding: 0.6rem; }
     }
 
-    /* 右键菜单样式 */
     .context-menu {
       position: fixed;
-      background: white;
+      background: var(--modal-bg);
       border-radius: 8px;
       padding: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px var(--shadow-color);
       display: none;
       z-index: 1000;
       min-width: 120px;
@@ -1015,12 +878,12 @@
       padding: 0.6rem 0.8rem;
       cursor: pointer;
       border-radius: 6px;
-      color: #333;
+      color: var(--text-color);
       transition: all 0.2s ease;
     }
 
     .menu-item:hover {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
     }
 
     .menu-item.delete {
@@ -1031,99 +894,37 @@
       background: rgba(244, 63, 94, 0.1);
     }
 
-    /* 添加长按高亮效果 */
     .quick-link.active {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      background: var(--button-hover-bg);
     }
 
     @media (max-width: 768px) {
-      .context-menu {
-        min-width: 60px;
-      }
-
-      .context-menu.show {
-        transform: translateY(0);
-      }
-
-      .menu-item {
-        justify-content: center;
-        font-size: 1.1rem;
-      }
+      .context-menu { min-width: 60px; }
+      .context-menu.show { transform: translateY(0); }
+      .menu-item { justify-content: center; font-size: 1.1rem; }
     }
 
-    /* 修改编辑状态下的快速访问项样式 */
-    .quick-link {
-      position: relative;
-    }
-
-    .edit-actions {
-      position: absolute;
-      right: 0.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: none;
-      gap: 0.4rem;
-      padding: 0.3rem;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-    }
-
-    .editing .quick-link .edit-actions {
-      display: flex;
-    }
-
-    /* 编辑按钮激活状态 */
-    .edit-button.active {
-      background: rgba(99, 102, 241, 0.3);
-      color: #4f46e5;
-    }
+    .edit-actions { display: none; }
 
     @media (max-width: 768px) {
-      .edit-actions {
-        padding: 0.4rem;
-        gap: 0.5rem;
-      }
-
-      .edit-action-button {
-        width: 32px;
-        height: 32px;
-      }
+      .editing .quick-link .edit-actions { display: flex; }
     }
 
-    /* 修改编辑按钮和操作按钮的样式 */
-    .edit-actions {
-      display: none;  /* 默认隐藏 */
-    }
-
-    /* 移动端编辑状态显示按钮 */
-    @media (max-width: 768px) {
-      .editing .quick-link .edit-actions {
-        display: flex;
-      }
-    }
-
-    /* PC端右键菜单样式保持不变 */
-    .context-menu {
-      display: none;
-    }
+    .context-menu { display: none; }
 
     @media (min-width: 769px) {
       .context-menu {
         position: fixed;
-        background: white;
+        background: var(--modal-bg);
         border-radius: 8px;
         padding: 0.5rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px var(--shadow-color);
         z-index: 1000;
         min-width: 120px;
       }
     }
 
-    /* 修改编辑按钮的 HTML 结构 */
-    .edit-button {
-      display: none;
-    }
+    .edit-button { display: none; }
 
     .loading-content {
       display: flex;
@@ -1132,60 +933,34 @@
       justify-content: center;
     }
 
-    .edit-button .done-content {
-      display: none;
-    }
+    .edit-button .done-content { display: none; }
+    .edit-button.active .edit-content { display: none; }
+    .edit-button.active .done-content { display: flex; }
+    .edit-button span { font-size: 0.9rem; color: var(--text-color); }
+    .edit-button.active { background: var(--action-hover-bg); color: #4f46e5; }
 
-    .edit-button.active .edit-content {
-      display: none;
-    }
+    .modal.show { display: flex; }
 
-    .edit-button.active .done-content {
-      display: flex;
-    }
+    .modal-header { margin-bottom: 1.5rem; }
+    .modal-header h3 { margin: 0; color: var(--text-color); }
 
-    .edit-button span {
-      font-size: 0.9rem;
-    }
-
-    /* 编辑状态下的样式 */
-    .edit-button.active {
-      background: rgba(99, 102, 241, 0.2);
-      color: #4f46e5;
-    }
-
-    /* 添加弹窗显示样式 */
-    .modal.show {
-      display: flex;
-    }
-
-    /* 添加基础表单样式 */
-    .modal-header {
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      color: #333;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #666;
-    }
-
-    .form-group input {
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: var(--secondary-text-color); }
+    .form-group input, .form-group textarea {
       width: 100%;
       padding: 0.8rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
       box-sizing: border-box;
+      background: var(--modal-bg);
+      color: var(--text-color);
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
     }
 
     .modal-footer {
@@ -1204,25 +979,11 @@
       transition: all 0.3s ease;
     }
 
-    .cancel-button {
-      background: #f3f4f6;
-      color: #666;
-    }
+    .cancel-button { background: var(--cancel-bg); color: var(--secondary-text-color); }
+    .save-button { background: var(--save-bg); color: white; }
+    .save-button:hover { background: var(--save-hover-bg); }
+    .cancel-button:hover { background: var(--cancel-hover-bg); }
 
-    .save-button {
-      background: #6366f1;
-      color: white;
-    }
-
-    .save-button:hover {
-      background: #4f46e5;
-    }
-
-    .cancel-button:hover {
-      background: #e5e7eb;
-    }
-
-    /* 合并按钮相关的基础样式 */
     .action-button,
     .edit-action-button,
     .modal-button {
@@ -1232,7 +993,6 @@
       transition: all 0.3s ease;
     }
 
-    /* 添加头部按钮样式 */
     .header-actions {
       display: flex;
       align-items: center;
@@ -1242,7 +1002,7 @@
     .header-button {
       padding: 0.5rem;
       border-radius: 8px;
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--header-bg);
       border: none;
       cursor: pointer;
       color: #6366f1;
@@ -1253,11 +1013,10 @@
     }
 
     .header-button:hover {
-      background: rgba(99, 102, 241, 0.2);
+      background: var(--header-hover-bg);
       transform: translateY(-2px);
     }
 
-    /* 设置弹窗样式 */
     .modal-body {
       padding: 1rem 0;
       flex: 1;
@@ -1270,7 +1029,7 @@
 
     .settings-section h4 {
       margin: 0 0 1rem;
-      color: #333;
+      color: var(--text-color);
       font-size: 1rem;
     }
 
@@ -1288,7 +1047,7 @@
       padding: 0.8rem;
       border: none;
       border-radius: 8px;
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
       color: #6366f1;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -1296,44 +1055,42 @@
     }
 
     .settings-button:hover {
-      background: rgba(99, 102, 241, 0.2);
+      background: var(--action-hover-bg);
       transform: translateY(-2px);
     }
 
     .settings-button svg {
       flex-shrink: 0;
+      color: #6366f1;
     }
 
-    /* 响应式调整 */
     @media (max-width: 768px) {
-      .settings-buttons {
-        grid-template-columns: 1fr;
-      }
+      .settings-buttons { grid-template-columns: 1fr; }
     }
 
-    /* 配置文本区域样式 */
     .config-text-area {
-      background: #f8f9fa;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       padding: 1rem;
-      max-height: 300px; /* 添加最大高度 */
-      overflow: hidden; /* 防止内容溢出 */
+      max-height: 300px;
+      overflow: hidden;
     }
 
     .config-text-area textarea {
       width: 90%;
       width: -webkit-fill-available;
-      height: 150px; /* 调整默认高度 */
-      max-height: 250px; /* 添加最大高度 */
+      height: 150px;
+      max-height: 250px;
       padding: 0.8rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-family: monospace;
       font-size: 0.9rem;
       resize: vertical;
-      background: white;
-      overflow-y: auto; /* 添加垂直滚动 */
-      line-height: 1.4; /* 添加行高 */
+      background: var(--modal-bg);
+      color: var(--text-color);
+      overflow-y: auto;
+      line-height: 1.4;
     }
 
     .config-text-actions {
@@ -1349,7 +1106,7 @@
       padding: 0.5rem 0.8rem;
       border: none;
       border-radius: 6px;
-      background: white;
+      background: var(--modal-bg);
       color: #6366f1;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -1357,27 +1114,19 @@
     }
 
     .text-action-button:hover {
-      background: #f3f4f6;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .text-action-button svg {
       flex-shrink: 0;
+      color: #6366f1;
     }
 
-    /* 响应式调整 */
     @media (max-width: 480px) {
-      .config-text-actions {
-        flex-wrap: wrap;
-      }
-      
-      .text-action-button {
-        flex: 1;
-        min-width: 80px;
-        justify-content: center;
-      }
+      .config-text-actions { flex-wrap: wrap; }
+      .text-action-button { flex: 1; min-width: 80px; justify-content: center; }
     }
 
-    /* 搜索引擎列表样式 */
     .search-engines-list {
       margin: 1rem 0;
       display: flex;
@@ -1392,7 +1141,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.8rem;
-      background: #f8f9fa;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       transition: all 0.3s ease;
     }
@@ -1404,11 +1153,12 @@
     .engine-name {
       font-weight: 500;
       margin-bottom: 0.2rem;
+      color: var(--text-color);
     }
 
     .engine-url {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--secondary-text-color);
     }
 
     .engine-actions {
@@ -1427,61 +1177,49 @@
     }
 
     .engine-action-button:hover {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
     }
 
     .engine-action-button.delete {
-      color: #ef4444;
+      color: #f43f5e;
     }
 
     .engine-action-button.delete:hover {
-      background: rgba(239, 68, 68, 0.1);
+      background: rgba(244, 63, 94, 0.1);
     }
 
-    /* 添加搜索引擎按钮样式 */
     .add-engine-button {
       width: 100%;
       justify-content: center;
       margin-top: 0.5rem;
       padding: 0.8rem;
       gap: 0.5rem;
-      background: #f8f9fa;
+      background: rgba(255, 255, 255, 0.1);
       color: #6366f1;
-      border: 2px dashed #e2e8f0;
+      border: 2px dashed var(--border-color);
       transition: all 0.3s ease;
     }
 
     .add-engine-button:hover {
-      background: #f1f5f9;
+      background: rgba(255, 255, 255, 0.2);
       border-color: #6366f1;
     }
 
-    /* 表单提示文本样式 */
     .form-hint {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--secondary-text-color);
       margin-top: 0.4rem;
     }
 
-    /* 修改搜索引擎列表项样式 */
     .search-engine-info {
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
     }
 
-    .engine-name {
-      font-weight: 500;
-      color: #333;
-    }
+    .engine-name { font-weight: 500; color: var(--text-color); }
+    .engine-url { font-size: 0.85rem; color: var(--secondary-text-color); word-break: break-all; }
 
-    .engine-url {
-      font-size: 0.85rem;
-      color: #666;
-      word-break: break-all;
-    }
-
-    /* 移动端下拉选择样式 */
     .mobile-tabs-select {
       display: none;
       width: 100%;
@@ -1489,34 +1227,23 @@
       font-size: 1rem;
       border: 1px solid rgba(99, 102, 241, 0.2);
       border-radius: 12px;
-      background: white;
-      color: #333;
+      background: var(--modal-bg);
+      color: var(--text-color);
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.8rem center;
       background-size: 14px;
       cursor: pointer;
     }
 
-    /* 修改响应式布局相关样式 */
     @media (max-width: 480px) {
-      .tabs {
-        display: none !important; /* 强制隐藏标签栏 */
-      }
-      
-      .mobile-tabs-select {
-        display: block !important; /* 强制显示下拉选择 */
-      }
-      
-      /* 移除原有的标签相关样式 */
-      .tabs::before {
-        display: none;
-      }
+      .tabs { display: none !important; }
+      .mobile-tabs-select { display: block !important; }
+      .tabs::before { display: none; }
     }
 
-    /* ... existing code ... */
     .settings-button.danger {
       background: rgba(239, 68, 68, 0.1);
       color: #ef4444;
@@ -1526,7 +1253,6 @@
       background: rgba(239, 68, 68, 0.2);
     }
 
-    /* 修改 loading 动画样式 */
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -1553,10 +1279,9 @@
       50% { transform: scale(1); opacity: 1; }
     }
 
-    /* 分组列表样式 */
     .categories-list {
       margin-bottom: 1rem;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       overflow: hidden;
     }
@@ -1565,29 +1290,26 @@
       display: flex;
       align-items: center;
       padding: 0.8rem 1rem;
-      background: white;
+      background: var(--modal-bg);
       margin-bottom: 2px;
       gap: 1rem;
       user-select: none;
       transition: background-color 0.2s;
     }
 
-    .category-item:hover {
-      background: #f8f9fa;
-    }
+    .category-item:hover { background: rgba(255, 255, 255, 0.1); }
 
-    /* 拖拽时的样式 */
     .category-item.sortable-ghost {
       opacity: 0.4;
-      background: #f1f5f9;
+      background: rgba(255, 255, 255, 0.05);
       position: relative;
       z-index: 1;
-      touch-action: none;  /* 防止触摸事件冲突 */
+      touch-action: none;
     }
 
     .category-item.sortable-drag {
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: var(--modal-bg);
+      box-shadow: 0 4px 12px var(--shadow-color);
       position: absolute;
       z-index: 2;
       width: 100% !important;
@@ -1596,7 +1318,7 @@
 
     .category-name {
       font-weight: 500;
-      color: #333;
+      color: var(--text-color);
       overflow: hidden;
       text-overflow: ellipsis;
       flex: 1;
@@ -1618,16 +1340,16 @@
     }
 
     .category-action-button:hover {
-      background: rgba(0, 0, 0, 0.05);
-      color: #333;
+      background: var(--action-bg);
+      color: var(--text-color);
     }
 
     .category-action-button.delete {
-      color: #ef4444;
+      color: #f43f5e;
     }
 
     .category-action-button.delete:hover {
-      background: rgba(239, 68, 68, 0.1);
+      background: rgba(244, 63, 94, 0.1);
     }
 
     .add-category-button {
@@ -1636,7 +1358,6 @@
       margin-top: 1rem;
     }
 
-    /* 分组列表容器样式 */
     .categories-section {
       flex: 1;
       display: flex;
@@ -1644,15 +1365,13 @@
       gap: 1rem;
     }
 
-    /* 修改列表包装器样式 */
     .categories-list-wrapper {
       flex: 1;
-      overflow-y: auto;  /* 允许垂直滚动 */
-      min-height: 100px;  /* 设置最小高度 */
-      max-height: calc(90vh - 200px);  /* 限制最大高度，减去头部、底部和按钮的高度 */
+      overflow-y: auto;
+      min-height: 100px;
+      max-height: calc(90vh - 200px);
     }
 
-    /* 分组列表样式 */
     .categories-list {
       margin-bottom: 0;
       background: rgba(0, 0, 0, 0.02);
@@ -1660,71 +1379,52 @@
       overflow: hidden;
     }
 
-    /* 添加分组按钮固定在底部 */
-    .categories-section .add-category-button {
-      margin-top: 0;  /* 移除顶部间距 */
-    }
+    .categories-section .add-category-button { margin-top: 0; }
 
-    /* 分组列表滚动条样式 */
-    .categories-list-wrapper::-webkit-scrollbar {
-      width: 6px;
-    }
-
+    .categories-list-wrapper::-webkit-scrollbar { width: 6px; }
     .categories-list-wrapper::-webkit-scrollbar-thumb {
       background: rgba(0, 0, 0, 0.15);
       border-radius: 3px;
     }
-
     .categories-list-wrapper::-webkit-scrollbar-thumb:hover {
       background: rgba(0, 0, 0, 0.25);
     }
 
-    /* 修改添加按钮统一样式 */
     .add-button {
       width: 100%;
       justify-content: center;
       margin-top: 0.5rem;
       padding: 0.8rem;
       gap: 0.5rem;
-      background: #f8f9fa;
+      background: rgba(255, 255, 255, 0.1);
       color: #6366f1;
-      border: 2px dashed #e2e8f0;
+      border: 2px dashed var(--border-color);
       transition: all 0.3s ease;
     }
 
     .add-button:hover {
-      background: #f1f5f9;
+      background: rgba(255, 255, 255, 0.2);
       border-color: #6366f1;
     }
 
-    /* 移除旧的样式 */
-    .add-category-button {
-      width: 100%;
-      justify-content: center;
-      margin-top: 0;
-    }
-
+    .add-category-button { width: 100%; justify-content: center; margin-top: 0; }
     .add-engine-button {
       width: 100%;
       justify-content: center;
       margin-top: 0.5rem;
       padding: 0.8rem;
       gap: 0.5rem;
-      background: #f8f9fa;
+      background: rgba(255, 255, 255, 0.1);
       color: #6366f1;
-      border: 2px dashed #e2e8f0;
+      border: 2px dashed var(--border-color);
       transition: all 0.3s ease;
     }
 
-    /* 添加移动端拖动相关样式 */
-    .category-item {
-      transition: transform 0.2s;
-    }
-
+    .category-item { transition: transform 0.2s; }
     .category-item.dragging {
       opacity: 0.9;
-      background: #f8fafc;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 2px 8px var(--shadow-color);
     }
 
     .drag-handle {
@@ -1736,6 +1436,7 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       padding: 0.5rem;
+      color: var(--text-color);
     }
 
     .drag-handle:active {
@@ -1743,38 +1444,25 @@
       cursor: grabbing;
     }
 
-    /* 移动端样式优化 */
     @media (max-width: 480px) {
-      .drag-handle {
-        padding: 0.8rem 0.4rem; /* 增大触摸区域 */
-      }
-
-      .category-actions {
-        gap: 0.2rem;
-      }
-
-      .engine-actions {
-        gap: 0.2rem;
-      }
-      
-      .category-action-button {
-        padding: 0.6rem; /* 增大按钮点击区域 */
-      }
+      .drag-handle { padding: 0.8rem 0.4rem; }
+      .category-actions { gap: 0.2rem; }
+      .engine-actions { gap: 0.2rem; }
+      .category-action-button { padding: 0.6rem; }
     }
 
-    /* 搜索弹窗样式 */
     .search-modal {
       max-width: 600px;
       overflow: hidden;
       position: fixed;
-      top: 80px;  /* 距离顶部固定距离 */
+      top: 80px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      max-height: calc(100vh - 200px);  /* 限制最大高度 */
-      background: white;
+      max-height: calc(100vh - 200px);
+      background: var(--modal-bg);
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 20px var(--shadow-color);
     }
 
     .site-search-container {
@@ -1789,12 +1477,12 @@
       padding: 1rem;
       padding-top: 0;
       margin-bottom: 10px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid var(--border-color);
       gap: 0.8rem;
       position: relative;
-      background: white;  /* 确保背景色 */
-      border-radius: 12px 12px 0 0;  /* 圆角只在顶部 */
-      height: 64px;  /* 固定高度 */
+      background: var(--modal-bg);
+      border-radius: 12px 12px 0 0;
+      height: 64px;
       box-sizing: border-box;
     }
 
@@ -1810,18 +1498,19 @@
       font-size: 1.1rem;
       background: none;
       padding: 0.5rem;
+      color: var(--text-color);
     }
 
     .search-shortcut {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      color: #666;
+      color: var(--secondary-text-color);
       font-size: 0.9rem;
     }
 
     .search-shortcut kbd {
-      background: #f1f5f9;
+      background: rgba(255, 255, 255, 0.1);
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       font-size: 0.8rem;
@@ -1831,12 +1520,12 @@
 
     .search-results {
       overflow-y: auto;
-      max-height: calc(100vh - 400px);  /* 减去顶部间距、搜索框高度和底部间距 */
-      min-height: 0;  /* 允许内容少时自动收缩 */
+      max-height: calc(100vh - 400px);
+      min-height: 0;
       padding: 0.5rem;
       margin-top: 0;
-      background: white;
-      border-radius: 0 0 12px 12px;  /* 圆角只在底部 */
+      background: var(--modal-bg);
+      border-radius: 0 0 12px 12px;
     }
 
     .search-result-item {
@@ -1847,12 +1536,13 @@
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
-      margin-bottom: 0.2rem;  /* 添加项目间距 */
+      margin-bottom: 0.2rem;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .search-result-item:hover,
     .search-result-item.selected {
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
     }
 
     .search-result-icon {
@@ -1868,11 +1558,12 @@
     .search-result-name {
       font-weight: 500;
       margin-bottom: 0.2rem;
+      color: var(--text-color);
     }
 
     .search-result-url {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--secondary-text-color);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1881,7 +1572,7 @@
     .search-result-category {
       font-size: 0.8rem;
       color: #6366f1;
-      background: rgba(99, 102, 241, 0.1);
+      background: var(--action-bg);
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       white-space: nowrap;
@@ -1890,44 +1581,24 @@
     .no-results {
       text-align: center;
       padding: 2rem;
-      color: #666;
+      color: var(--secondary-text-color);
     }
 
-    /* 响应式调整 */
     @media (max-width: 480px) {
-      .search-modal {
-        top: 60px;  /* 移动端距顶部更近 */
-        width: 80%;
-      }
-      
-      .search-shortcut {
-        display: none;
-      }
-      
-      .search-input-wrapper {
-        height: 56px;  /* 移动端搜索框稍小 */
-        padding: 0.8rem;
-      }
-      
-      .search-results {
-        max-height: calc(100vh - 400px);
-      }
-      
-      .search-result-item {
-        padding: 0.6rem;
-      }
+      .search-modal { top: 60px; width: 80%; }
+      .search-shortcut { display: none; }
+      .search-input-wrapper { height: 56px; padding: 0.8rem; }
+      .search-results { max-height: calc(100vh - 400px); }
+      .search-result-item { padding: 0.6rem; }
     }
 
-    /* 添加动画效果 */
-    .modal#siteSearchModal {
-      background: rgba(0, 0, 0, 0.3);
-    }
+    .modal#siteSearchModal { background: rgba(0, 0, 0, 0.5); }
     
     .search-modal {
       transform: translateX(-50%) translateY(-10px);
       opacity: 0;
       transition: all 0.2s ease-out;
-      background: #ffffff;  /* 确保搜索弹窗背景是纯白色 */
+      background: var(--modal-bg);
     }
     
     .modal.show .search-modal {
@@ -1935,28 +1606,21 @@
       opacity: 1;
     }
 
-    /* 添加样式 */
-    .shortcut-hint {
-      margin-left: 4px;
-    }
-    
-    @media (max-width: 480px) {
-      .shortcut-hint {
-        display: none;
-      }
-    }
+    .shortcut-hint { margin-left: 4px; color: var(--secondary-text-color); }
+    @media (max-width: 480px) { .shortcut-hint { display: none; } }
 
-    /* 备注文本框样式 */
     #linkNote {
       width: 100%;
       padding: 0.8rem;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       box-sizing: border-box;
       font-size: 0.95rem;
       resize: none;
       transition: all 0.3s ease;
       font-family: inherit;
+      background: var(--modal-bg);
+      color: var(--text-color);
     }
 
     #linkNote:focus {
@@ -1965,7 +1629,6 @@
       box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
     }
 
-    /* 修改链接项样式以适应备注 */
     .quick-link {
       padding: 0.8rem 1rem;
       height: auto;
@@ -1993,10 +1656,9 @@
       max-width: 100%;
     }
 
-    /* 搜索结果中的备注样式 */
     .search-result-note {
       font-size: 0.85rem;
-      color: #666;
+      color: var(--secondary-text-color);
       margin-top: 0.2rem;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -2017,1472 +1679,100 @@
       text-align: left;
     }
 
-    /* 添加自定义拖放时的样式 */
-    .sortable-fallback {
-      display: none !important;
+    .sortable-fallback { display: none !important; }
+
+    @media (max-width: 768px) {
+      .category-item.sortable-drag { transform: scale(1.02); transition: transform 0.2s !important; }
+      .drag-handle { padding: 0.5rem; margin: -0.5rem; }
     }
 
-    /* 优化移动端拖动体验 */
-    @media (max-width: 768px) {
-      .category-item.sortable-drag {
-        transform: scale(1.02);
-        transition: transform 0.2s !important;
+    /* 媒体查询：根据系统偏好切换模式 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-light: #1a202c;
+        --bg-gradient-light: linear-gradient(135deg, #1a202c, #2d3748);
+        --container-bg-light: linear-gradient(135deg, rgba(36, 41, 54, 0.8), rgba(36, 41, 54, 0.6));
+        --container-before-light: linear-gradient(135deg, rgba(67, 56, 202, 0.05), rgba(88, 28, 135, 0.05));
+        --text-color: #e2e8f0;
+        --secondary-text-color: #a0aec0;
+        --button-bg: linear-gradient(135deg, #4338ca, #582c87);
+        --button-hover-bg: linear-gradient(135deg, #3730a3, #4a1d80);
+        --modal-bg: #2d3748;
+        --border-color: #4a5568;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --header-bg: rgba(67, 56, 202, 0.1);
+        --header-hover-bg: rgba(67, 56, 202, 0.2);
+        --action-bg: rgba(67, 56, 202, 0.1);
+        --action-hover-bg: rgba(67, 56, 202, 0.2);
+        --cancel-bg: #4a5568;
+        --cancel-hover-bg: #2d3748;
+        --save-bg: #4338ca;
+        --save-hover-bg: #3730a3;
+        --toggle-bg: #4a5568;
+        --toggle-active-bg: #4338ca;
+        --toggle-thumb: #e2e8f0;
+        --search-bg: #2d3748; /* 暗模式下搜索框背景保持深色 */
+        --search-text-color: #e2e8f0; /* 暗模式下文字颜色为白色 */
       }
+    }
 
-      .drag-handle {
-        padding: 0.5rem;
-        margin: -0.5rem;  /* 增大可点击区域 */
-      }
+    /* 主题切换开关按钮样式 */
+    .theme-toggle {
+      position: absolute;
+      top: 2rem; /* 调整为 2rem */
+      left: calc(100% + 5rem); /* 调整为 5rem */
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .theme-toggle span {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      margin-right: 0.5rem;
+    }
+
+    .theme-toggle input[type="checkbox"] {
+      display: none;
+    }
+
+    .theme-toggle label {
+      width: 48px;
+      height: 24px;
+      background: var(--toggle-bg);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .theme-toggle input[type="checkbox"]:checked + label {
+      background: var(--toggle-active-bg);
+    }
+
+    .theme-toggle label::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 2px;
+      left: 2px;
+      background: var(--toggle-thumb);
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px var(--shadow-color);
+    }
+
+    .theme-toggle input[type="checkbox"]:checked + label::before {
+      transform: translateX(24px);
     }
   </style>
-  <script type="module">
-    import { 
-      defaultSearchEngines as searchEngines,
-      getStoredSearchEngine, 
-      saveSearchEngineSelection,
-      STORAGE_KEYS,
-      bookmarkConfig,
-      getBookmarkConfig,
-      getSearchEngines,
-      getWebDAVConfig,
-      saveWebDAVConfig,
-      generateId,  // 添加 generateId 导入
-    } from './config.js';
-    
-    // 定义全局变量
-    const DEFAULT_ICON = '🔗';
-
-    // 初始化搜索功能
-    function initializeSearch() {
-      const searchBox = document.querySelector('.search-box');
-      const searchButton = document.querySelector('.search-button');
-      const engineButton = document.querySelector('.search-engine');
-      const engineDropdown = document.querySelector('.engine-dropdown');
-      
-      // 初始化搜索引擎下拉菜单
-      initEngineDropdown();
-      
-      // 更新当前搜索引擎显示
-      updateCurrentEngine();
-      
-      // 搜索框回车事件
-      searchBox.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          performSearch();
-        }
-      });
-      
-      // 搜索按钮点击事件
-      searchButton.addEventListener('click', performSearch);
-      
-      // 搜索引擎切换按钮点击事件
-      engineButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        engineDropdown.classList.toggle('show');
-      });
-      
-      // 点击其他地方关闭下拉菜单
-      document.addEventListener('click', () => {
-        engineDropdown.classList.remove('show');
-      });
-    }
-    
-    // 执行搜索
-    function performSearch() {
-      const searchBox = document.querySelector('.search-box');
-      const query = searchBox.value.trim();
-      if (!query) return;
-
-      const engines = getSearchEngines();
-      const currentEngineId = getStoredSearchEngine();
-      const engine = engines.find(e => e.id === currentEngineId);
-      
-      if (engine) {
-        const searchUrl = engine.url.replace('{q}', encodeURIComponent(query));
-        // 修改这里，移除 '_blank'
-        window.location.href = searchUrl;
-      }
-    }
-
-    // 初始化搜索引擎下拉菜单
-      function initEngineDropdown() {
-        const dropdown = document.querySelector('.engine-dropdown');
-        const engines = getSearchEngines();
-        
-        dropdown.innerHTML = engines.map(engine => `
-        <div class="engine-option" data-id="${engine.id}">
-          ${engine.name}
-  </div>
-        `).join('');
-      
-      // 添加点击事件
-      dropdown.querySelectorAll('.engine-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-          const engineId = e.currentTarget.dataset.id;
-          saveSearchEngineSelection(engineId);
-          updateCurrentEngine();
-        dropdown.classList.remove('show');
-      });
-      });
-    }
-    
-    // 更新当前搜索引擎显示
-    function updateCurrentEngine() {
-      const currentEngineId = getStoredSearchEngine();
-          const engines = getSearchEngines();
-      const engine = engines.find(e => e.id === currentEngineId);
-      
-          if (engine) {
-        document.getElementById('currentEngineName').textContent = engine.name;
-      }
-    }
-
-    // 页面加载完成后初始化
-    window.addEventListener('DOMContentLoaded', () => {
-      initializeSearch();
-      initializeSiteSearch();
-      initializeBookmarks();
-      initializeEventListeners();
-    });
-
-    // 修改导出配置函数
-    function exportConfig() {
-      const config = {
-        searchEngine: getStoredSearchEngine(),
-        searchEngines: getSearchEngines(),
-        bookmarkConfig: getBookmarkConfig()
-      };
-
-      const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `config_${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    // 修改导入配置函数
-    async function importConfig(file) {
-      try {
-        const text = await file.text();
-        const config = JSON.parse(text);
-
-        // 导入搜索引擎列表
-        if (config.searchEngines) {
-          localStorage.setItem('searchEngines', JSON.stringify(config.searchEngines));
-        }
-
-        // 导入当前选中的搜索引擎
-        if (config.searchEngine) {
-          saveSearchEngineSelection(config.searchEngine);
-        }
-
-        // 导入收藏夹配置
-        if (config.bookmarkConfig) {
-          localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config.bookmarkConfig));
-        }
-
-        alert('配置导入成功！');
-        location.reload();
-      } catch (error) {
-        console.error('导入配置失败:', error);
-        alert('导入配置失败，请确保文件格式正确！');
-      }
-    }
-
-    // 修改导出到文本框函数
-    function exportConfigToText() {
-      const config = {
-        searchEngine: getStoredSearchEngine(),
-        searchEngines: getSearchEngines(),
-        bookmarkConfig: getBookmarkConfig()
-      };
-      document.getElementById('configText').value = JSON.stringify(config, null, 2);
-    }
-
-    // 表单验证函数
-    function validateForm() {
-      const name = document.getElementById('linkName').value.trim();
-      const url = document.getElementById('linkUrl').value.trim();
-      const icon = document.getElementById('linkIcon').value.trim() || DEFAULT_ICON;
-      const note = document.getElementById('linkNote').value.trim();
-      const iconType = document.getElementById('iconType').value;
-      
-      if (!name || !url) {
-        alert('请填写名称和链接');
-        return null;
-      }
-
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        alert('请输入有效的URL地址');
-          return null;
-      }
-
-      if (iconType === 'url' && !isValidUrl(icon)) {
-        alert('请输入有效的图标URL地址');
-        return null;
-      }
-
-      return { name, url, icon, note };
-    }
-
-    // 重置表单函数
-    function resetForm() {
-      document.getElementById('linkName').value = '';
-      document.getElementById('linkUrl').value = '';
-      document.getElementById('linkIcon').value = '';
-      document.getElementById('linkNote').value = '';  // 重置备注输入框
-      document.getElementById('iconType').value = 'emoji';
-      document.getElementById('emojiPicker').classList.add('show');
-    }
-
-    // 初始化标签指示器
-    function updateTabIndicator() {
-      const activeTab = document.querySelector('.tab.active');
-      const tabsContainer = document.querySelector('.tabs');
-      if (!activeTab || !tabsContainer) return;
-      
-      if (window.innerWidth <= 480) {
-        // 移动端竖向布局保持不变
-        const tabHeight = activeTab.offsetHeight;
-        const tabTop = activeTab.offsetTop;
-        const tabs = document.querySelectorAll('.tab');
-        const tabCount = tabs.length;
-        const slideHeight = (100 / tabCount).toFixed(2);
-        
-        tabsContainer.style.setProperty('--slide-top', `${tabTop}px`);
-        tabsContainer.style.setProperty('--slide-height', `${slideHeight}%`);
-        tabsContainer.style.removeProperty('--slide-left');
-        tabsContainer.style.removeProperty('--slide-width');
-      } else {
-        // PC端横向布局（支持多行）
-        const tabWidth = activeTab.offsetWidth || 0;
-        const tabHeight = activeTab.offsetHeight || 0;
-        const tabLeft = activeTab.offsetLeft || 0;
-        const tabTop = activeTab.offsetTop || 0;
-        
-        // 设置指示器的位置和大小
-        tabsContainer.style.setProperty('--slide-left', `${tabLeft}px`);
-        tabsContainer.style.setProperty('--slide-width', `${tabWidth}px`);
-        tabsContainer.style.setProperty('--slide-top', `${tabTop}px`);
-        tabsContainer.style.setProperty('--slide-height', `${tabHeight}px`);
-      }
-    }
-
-    // 添加窗口大小变化监听
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(updateTabIndicator, 100);
-    });
-
-    // 修改初始化事件监听函数
-    function initializeEventListeners() {
-      // 设置按钮点击事件
-      document.getElementById('settingsButton').addEventListener('click', () => {
-        document.getElementById('settingsModal').classList.add('show');
-        // 初始化搜索引擎列表
-        initSearchEnginesList();
-        // 更新配置文本框
-        exportConfigToText();
-        // 加载 WebDAV 配置
-        loadWebDAVConfig();
-      });
-
-      // 关闭设置按钮点击事件
-      document.getElementById('closeSettingsButton').addEventListener('click', () => {
-        closeModal(document.getElementById('settingsModal'));
-      });
-
-      // 添加分组按钮
-      document.getElementById('addCategoryBtn').addEventListener('click', () => {
-        document.getElementById('categoryModal').classList.add('show');
-        initializeCategoriesList();
-      });
-
-      document.getElementById('closeCategoryModal').addEventListener('click', () => {
-        closeModal(document.getElementById('categoryModal'));
-      });
-
-      document.getElementById('addNewCategoryBtn').addEventListener('click', () => {
-        document.getElementById('editCategoryModal').classList.add('show');
-        // 重置表单
-        document.getElementById('editCategoryTitle').textContent = '添加分组';
-        document.getElementById('categoryName').value = '';
-        document.getElementById('categoryId').value = '';
-      });
-
-      // 添加链接按钮
-      document.getElementById('addBookmarkBtn').addEventListener('click', () => {
-        updateCategorySelect();
-        // 初始化 emoji picker 的显示状态
-        document.getElementById('iconType').value = 'emoji';
-        document.getElementById('emojiPicker').classList.add('show');
-        document.getElementById('addLinkModal').classList.add('show');
-      });
-
-      // 取消按钮
-      document.getElementById('cancelCategoryButton').addEventListener('click', () => {
-        closeModal(document.getElementById('editCategoryModal'));
-      });
-
-      document.getElementById('cancelButton').addEventListener('click', () => {
-        closeModal(document.getElementById('addLinkModal'));
-      });
-
-      // 保存按钮
-      document.getElementById('saveCategoryButton').addEventListener('click', saveCategory);
-      document.getElementById('saveButton').addEventListener('click', saveBookmark);
-
-      // 图标类型切换
-      document.getElementById('iconType').addEventListener('change', (e) => {
-        const emojiPicker = document.getElementById('emojiPicker');
-        if (e.target.value === 'emoji') {
-          emojiPicker.classList.add('show');
-        } else {
-          emojiPicker.classList.remove('show');
-        }
-      });
-
-      // Emoji 选择
-      document.querySelectorAll('.emoji-item').forEach(item => {
-        item.addEventListener('click', () => {
-          document.getElementById('linkIcon').value = item.dataset.emoji;
-        });
-      });
-
-      // 搜索引擎管理相关事件
-      document.getElementById('addEngineBtn').addEventListener('click', () => {
-        document.getElementById('addEngineModal').classList.add('show');
-      });
-
-      document.getElementById('cancelEngineButton').addEventListener('click', () => {
-        closeModal(document.getElementById('addEngineModal'));
-      });
-
-      document.getElementById('saveEngineButton').addEventListener('click', addSearchEngine);
-
-      // 导出配置按钮
-      document.getElementById('exportConfigBtn').addEventListener('click', exportConfig);
-      
-      // 导入配置按钮
-      document.getElementById('importConfigBtn').addEventListener('click', () => {
-        document.getElementById('configFileInput').click();
-      });
-      
-      // 文件输入改变事件
-      document.getElementById('configFileInput').addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-          importConfig(e.target.files[0]);
-        }
-      });
-      
-      // 重置配置按钮
-      document.getElementById('resetConfigBtn').addEventListener('click', resetConfig);
-      
-      // 复制配置按钮
-      document.getElementById('copyConfigBtn').addEventListener('click', copyConfigText);
-      
-      // 从文本导入按钮
-      document.getElementById('importFromTextBtn').addEventListener('click', importConfigFromText);
-
-      // 添加遮罩层点击事件
-      const modals = document.querySelectorAll('.modal');
-      modals.forEach(modal => {
-        modal.addEventListener('click', (e) => {
-          // 只有当点击的是遮罩层本身时才关闭
-          if (e.target === modal) {
-            closeModal(modal);
-          }
-        });
-      });
-    }
-
-    // 添加关闭弹窗的通用函数
-    function closeModal(modal) {
-      modal.classList.remove('show');
-      
-      // 根据不同的弹窗 ID 执行特定的清理操作
-      switch (modal.id) {
-        case 'addLinkModal':
-          resetForm();
-          break;
-        case 'editCategoryModal':
-          document.getElementById('categoryName').value = '';
-          document.getElementById('categoryId').value = '';
-          break;
-        case 'addEngineModal':
-          document.getElementById('engineName').value = '';
-          document.getElementById('engineUrl').value = '';
-          break;
-        case 'siteSearchModal':
-          document.getElementById('siteSearchInput').value = '';
-          document.getElementById('siteSearchResults').innerHTML = '';
-          break;
-      }
-    }
-
-    // 保存书签
-    function saveBookmark() {
-      const formData = validateForm();
-      if (!formData) return;
-
-      const categoryId = document.getElementById('bookmarkCategory').value;
-      const config = getBookmarkConfig();
-      
-      const category = config.categories.find(c => c.id === categoryId);
-      if (!category) {
-        alert('分组不存在');
-          return;
-        }
-      
-      // 添加唯一ID
-      formData.id = generateId(categoryId + '_');
-      category.links.push(formData);
-      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-      
-      // 重新加载页面
-      closeModal(document.getElementById('addLinkModal'));
-      location.reload();
-    }
-
-    // 编辑书签
-    function editBookmark(categoryId, linkId) {
-      const config = getBookmarkConfig();
-      const category = config.categories.find(c => c.id === categoryId);
-      if (!category) return;
-      
-      const bookmark = category.links.find(link => link.id === linkId);
-      if (!bookmark) return;
-
-      // 更新分组选择下拉框
-      updateCategorySelect();
-
-      // 修改弹窗标题
-      document.querySelector('#addLinkModal .modal-header h3').textContent = '编辑链接';
-
-      // 填充表单
-      document.getElementById('bookmarkCategory').value = categoryId;
-      document.getElementById('linkName').value = bookmark.name;
-      document.getElementById('linkUrl').value = bookmark.url;
-      document.getElementById('linkIcon').value = bookmark.icon;
-      document.getElementById('linkNote').value = bookmark.note || '';
-      
-      // 显示 emoji 面板
-      const iconType = document.getElementById('iconType');
-      const emojiPicker = document.getElementById('emojiPicker');
-      if (isValidUrl(bookmark.icon)) {
-        iconType.value = 'url';
-      } else {
-        iconType.value = 'emoji';
-        emojiPicker.classList.add('show');
-      }
-      
-      // 显示弹窗
-      document.getElementById('addLinkModal').classList.add('show');
-
-      // 修改保存按钮行为
-      const saveButton = document.getElementById('saveButton');
-      saveButton.removeEventListener('click', saveBookmark);
-
-      saveButton.onclick = () => {
-        const formData = validateForm();
-        if (!formData) return;
-
-        // 获取新的分组ID
-        const newCategoryId = document.getElementById('bookmarkCategory').value;
-        
-        // 如果分组发生变化
-        if (newCategoryId !== categoryId) {
-          // 从原分组中删除
-          const linkIndex = category.links.findIndex(link => link.id === linkId);
-          if (linkIndex !== -1) {
-            category.links.splice(linkIndex, 1);
-          }
-          
-          // 添加到新分组
-          const newCategory = config.categories.find(c => c.id === newCategoryId);
-          if (newCategory) {
-            formData.id = linkId;  // 保持原有ID
-            newCategory.links.push(formData);
-          }
-        } else {
-          // 在原分组中更新
-          formData.id = linkId;
-          const linkIndex = category.links.findIndex(link => link.id === linkId);
-          category.links[linkIndex] = formData;
-        }
-
-        localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-
-        // 恢复原始点击事件
-        saveButton.addEventListener('click', saveBookmark);
-
-        // 恢复弹窗标题
-        document.querySelector('#addLinkModal .modal-header h3').textContent = '添加链接';
-
-        // 关闭弹窗
-        document.getElementById('addLinkModal').classList.remove('show');
-        resetForm();
-
-        // 重新加载页面
-        closeModal(document.getElementById('addLinkModal'));
-        location.reload();
-      };
-    }
-
-    // 删除书签
-    function deleteBookmark(categoryId, linkId) {
-      if (!confirm('确定要删除这个链接吗？')) return;
-
-      const config = getBookmarkConfig();
-      const category = config.categories.find(c => c.id === categoryId);
-      if (!category) return;
-      
-      const linkIndex = category.links.findIndex(link => link.id === linkId);
-      if (linkIndex === -1) return;
-      
-      category.links.splice(linkIndex, 1);
-      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-
-      // 重新加载页面
-      closeModal(document.getElementById('addLinkModal'));
-      location.reload();
-    }
-
-    // 保存分组
-    function saveCategory() {
-      const nameInput = document.getElementById('categoryName');
-      const idInput = document.getElementById('categoryId');
-      const name = nameInput.value.trim();
-      
-      if (!name) {
-        alert('请输入分组名称');
-        return;
-      }
-      
-      const config = getBookmarkConfig();
-      const categoryId = idInput.value;
-      
-      if (categoryId) {
-        // 编辑现有分组
-        const category = config.categories.find(c => c.id === categoryId);
-        if (category) {
-          category.name = name;
-        }
-      } else {
-        // 添加新分组
-        config.categories.push({
-          id: generateId(),
-          name: name,
-          links: []
-        });
-      }
-      
-      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-      closeModal(document.getElementById('editCategoryModal'));
-      initializeCategoriesList();
-      initializeBookmarks(); // 刷新主界面
-    }
-
-    // 初始化标签页和内容
-    function initializeBookmarks() {
-      const currentBookmarkConfig = getBookmarkConfig();
-      
-      // 生成标签页
-      const tabsContainer = document.querySelector('.tabs');
-      const mobileSelect = document.querySelector('.mobile-tabs-select');
-      
-      // 生成PC端标签
-      tabsContainer.innerHTML = currentBookmarkConfig.categories.map((category, index) => 
-        `<div class="tab${index === 0 ? ' active' : ''}" 
-             data-target="${category.id}">
-             ${category.name}
-         </div>`
-      ).join('');
-      
-      // 生成移动端下拉选择
-      mobileSelect.innerHTML = currentBookmarkConfig.categories.map((category, index) => 
-        `<option value="${category.id}"${index === 0 ? ' selected' : ''}>
-           ${category.name}
-         </option>`
-      ).join('');
-
-      // 在生成标签后立即更新标签指示器
-      requestAnimationFrame(() => {
-        updateTabIndicator();
-      });
-
-      // 生成内容区域
-      const contentWrapper = document.querySelector('.content-wrapper');
-      contentWrapper.innerHTML = currentBookmarkConfig.categories.map((category, index) => `
-        <div class="content${index === 0 ? ' active' : ''}" id="${category.id}">
-          <div class="button-grid"></div>
-        </div>
-      `).join('');
-
-      // 生成链接按钮
-      currentBookmarkConfig.categories.forEach(category => {
-        const content = document.getElementById(category.id);
-        if (!content) return;
-        
-        const buttonGrid = content.querySelector('.button-grid');
-        buttonGrid.innerHTML = category.links.map(link => `
-          <a href="${link.url}" 
-             class="button" 
-             data-id="${link.id}"
-             data-category-id="${category.id}"
-             oncontextmenu="showContextMenu(event, this); return false;">
-            <div class="button-content">
-              <div class="button-main">
-                ${isValidUrl(link.icon) 
-                  ? `<img src="${link.icon}" alt="" class="quick-link-icon">` 
-                  : `<span class="quick-link-icon">${link.icon}</span>`
-                } 
-                <span>${link.name}</span>
-              </div>
-              ${link.note ? `<div class="button-note">${link.note}</div>` : ''}
-            </div>
-          </a>
-        `).join('');
-      });
-
-      // 初始化标签事件
-      initializeTabEvents();
-    }
-
-    // 修改 initializeTabEvents 函数
-    function initializeTabEvents() {
-      const tabs = document.querySelectorAll('.tab');
-      const contents = document.querySelectorAll('.content');
-      const mobileSelect = document.querySelector('.mobile-tabs-select');
-      let currentContent = document.querySelector('.content.active');
-      let currentTab = document.querySelector('.tab.active');
-
-      // PC端标签点击事件
-      tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-          switchContent(tab.getAttribute('data-target'));
-        });
-      });
-
-      // 移动端下拉选择事件
-      mobileSelect.addEventListener('change', (e) => {
-        switchContent(e.target.value);
-        // 让下拉框失焦
-        e.target.blur();
-      });
-
-      // 内容切换函数
-      function switchContent(targetId) {
-        const nextContent = document.getElementById(targetId);
-        if (currentContent === nextContent) return;
-
-        // 更新标签状态
-        tabs.forEach(t => t.classList.remove('active'));
-        const newTab = Array.from(tabs).find(t => t.getAttribute('data-target') === targetId);
-        if (newTab) {
-          newTab.classList.add('active');
-          updateTabIndicator();
-        }
-
-        // 更新下拉选择
-        mobileSelect.value = targetId;
-
-        // 更新内容显示
-        const currentIndex = Array.from(contents).indexOf(currentContent);
-        const nextIndex = Array.from(contents).indexOf(nextContent);
-        const isMovingRight = nextIndex > currentIndex;
-
-        currentContent.style.display = 'block';
-        currentContent.classList.add(isMovingRight ? 'slide-out-left' : 'slide-out-right');
-
-        setTimeout(() => {
-          contents.forEach(c => {
-            c.classList.remove('active', 'slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
-            c.style.opacity = '';
-            c.style.transform = '';
-            c.style.display = 'none';
-          });
-
-          nextContent.style.display = 'block';
-          nextContent.classList.add('active');
-          nextContent.classList.add(isMovingRight ? 'slide-in-right' : 'slide-in-left');
-
-          currentContent = nextContent;
-          currentTab = newTab;
-        }, 300);
-      }
-    }
-
-    // 添加搜索引擎相关函数
-    function initSearchEnginesList() {
-      const list = document.querySelector('.search-engines-list');
-      const engines = getSearchEngines();
-      
-      list.innerHTML = engines.map(engine => `
-        <div class="search-engine-item" data-id="${engine.id}">
-          <div class="search-engine-info">
-            <div class="engine-name">${engine.name}</div>
-            <div class="engine-url">${engine.url}</div>
-          </div>
-          <div class="engine-actions">
-            <button class="engine-action-button edit" title="编辑">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-              </svg>
-            </button>
-            <button class="engine-action-button delete" title="删除">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 6h18"></path>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      // 绑定编辑和删除事件
-      list.querySelectorAll('.engine-action-button').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const id = e.target.closest('.search-engine-item').dataset.id;
-          if (button.classList.contains('edit')) {
-            editSearchEngine(id);
-          } else if (button.classList.contains('delete')) {
-            deleteSearchEngine(id);
-          }
-      });
-    });
-    }
-
-    // 修改添加搜索引擎函数
-    function addSearchEngine() {
-      const name = document.getElementById('engineName').value.trim();
-      const url = document.getElementById('engineUrl').value.trim();
-
-      if (!name || !url) {
-        alert('请填写所有字段');
-        return;
-      }
-
-      if (!url.includes('{q}')) {
-        alert('URL 必须包含 {q} 作为搜索关键词的占位符');
-        return;
-      }
-
-      const engines = getSearchEngines();
-      const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
-      
-      // 检查是否已存在同名搜索引擎
-      if (engines.some(e => e.name.toLowerCase() === name.toLowerCase())) {
-        alert('已存在同名的搜索引擎');
-        return;
-      }
-
-      engines.push({ id, name, url });
-      localStorage.setItem('searchEngines', JSON.stringify(engines));
-      
-      closeModal(document.getElementById('addEngineModal'));
-      initSearchEnginesList();
-      initEngineDropdown();
-      exportConfigToText();
-    }
-
-    // 修改编辑搜索引擎函数
-    function editSearchEngine(id) {
-      const engines = getSearchEngines();
-      const engine = engines.find(e => e.id === id);
-      if (!engine) return;
-
-      document.getElementById('engineName').value = engine.name;
-      document.getElementById('engineUrl').value = engine.url;
-
-      const modal = document.getElementById('addEngineModal');
-      modal.classList.add('show');
-
-      // 修改保存按钮行为
-      const saveButton = document.getElementById('saveEngineButton');
-      saveButton.onclick = () => {
-        const name = document.getElementById('engineName').value.trim();
-        const url = document.getElementById('engineUrl').value.trim();
-
-        if (!name || !url) {
-          alert('请填写所有字段');
-          return;
-        }
-
-        if (!url.includes('{q}')) {
-          alert('URL 必须包含 {q} 作为搜索关键词的占位符');
-          return;
-        }
-
-        // 检查是否与其他引擎重名
-        if (engines.some(e => e.id !== id && e.name.toLowerCase() === name.toLowerCase())) {
-          alert('已存在同名的搜索引擎');
-          return;
-        }
-
-        // 更新引擎信息
-        const index = engines.findIndex(e => e.id === id);
-        engines[index] = { ...engine, name, url };
-        localStorage.setItem('searchEngines', JSON.stringify(engines));
-
-        modal.classList.remove('show');
-        initSearchEnginesList();
-        initEngineDropdown();
-        exportConfigToText(); // 更新配置文本
-        
-        // 如果编辑的是当前选中的搜索引擎，更新显示
-        const currentEngine = getStoredSearchEngine();
-        if (id === currentEngine) {
-          updateCurrentEngine();
-        }
-      };
-    }
-
-    // 修改删除搜索引擎函数
-    function deleteSearchEngine(id) {
-      if (!confirm('确定要删除这个搜索引擎吗？')) return;
-      
-      const engines = getSearchEngines();
-      const engine = engines.find(e => e.id === id);
-      
-      // 检查是否是当前使用的搜索引擎
-      const currentEngine = getStoredSearchEngine();
-      if (id === currentEngine) {
-        alert('无法删除当前正在使用的搜索引擎');
-        return;
-      }
-      
-      // 检查是否是默认引擎
-      if (engine.isDefault) {
-        alert('无法删除默认搜索引擎');
-        return;
-      }
-
-      const newEngines = engines.filter(e => e.id !== id);
-      localStorage.setItem('searchEngines', JSON.stringify(newEngines));
-      initSearchEnginesList();
-      initEngineDropdown();
-      // 更新配置文本
-      exportConfigToText();
-    }
-
-    // 将函数设为全局可访问
-    window.deleteSearchEngine = deleteSearchEngine;
-
-    // 添加重置配置函数
-    function resetConfig() {
-      if (confirm('确定要重置所有配置吗？这将删除所有自定义设置，包括搜索引擎、快速访问链接等。')) {
-        // 清除所有本地存储
-        localStorage.clear();
-        
-        alert('配置已重置，页面将刷新。');
-        location.reload();
-      }
-    }
-
-    // 将函数设为全局可访问
-    window.resetConfig = resetConfig;
-
-    // 添加 loading 控制函数
-    function setButtonLoading(button, isLoading, originalText) {
-      if (isLoading) {
-        button.disabled = true;
-        button.classList.add('loading');
-        // 保存原始内容
-        button.dataset.originalHtml = button.innerHTML;
-        button.innerHTML = `
-          <div class="loading-content">
-            <div class="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <span>处理中</span>
-          </div>
-        `;
-      } else {
-        button.disabled = false;
-        button.classList.remove('loading');
-        // 恢复原始内容
-        button.innerHTML = button.dataset.originalHtml;
-      }
-    }
-
-    // 从文本导入配置
-    async function importConfigFromText() {
-      try {
-        const configText = document.getElementById('configText').value.trim();
-        if (!configText) {
-          alert('请先输入配置文本');
-          return;
-        }
-        const config = JSON.parse(configText);
-        await importConfig(new Blob([configText], { type: 'application/json' }));
-      } catch (error) {
-        console.error('导入配置失败:', error);
-        alert('导入配置失败，请确保文本格式正确！');
-      }
-    }
-
-    // 复制配置文本
-    function copyConfigText() {
-      const configText = document.getElementById('configText').value;
-      try {
-        // 创建临时文本区域
-        const tempTextArea = document.createElement('textarea');
-        tempTextArea.value = configText;
-        document.body.appendChild(tempTextArea);
-        
-        // 选择文本
-        tempTextArea.select();
-        tempTextArea.setSelectionRange(0, 99999); // 兼容移动设备
-        
-        // 复制
-        document.execCommand('copy');
-        
-        // 移除临时元素
-        document.body.removeChild(tempTextArea);
-        
-        alert('配置已复制到剪贴板');
-      } catch (err) {
-        console.error('复制失败:', err);
-        alert('复制失败，请手动复制');
-      }
-    }
-
-    // 从剪贴板粘贴
-    async function pasteConfig() {
-      try {
-        const text = await navigator.clipboard.readText();
-        document.getElementById('configText').value = text;
-      } catch (err) {
-        console.error('粘贴失败:', err);
-        alert('粘贴失败，请手动粘贴');
-      }
-    }
-
-    // 显示右键菜单
-    function showContextMenu(e, link) {
-      e.preventDefault();
-      const id = link.dataset.id;
-      const categoryId = link.dataset.categoryId;  // 修改为 categoryId
-
-      // 设置菜单位置
-      const menu = document.getElementById('quickLinkMenu');
-      const rect = link.getBoundingClientRect();
-      const x = e.clientX;
-      const y = e.clientY;
-
-      // 确保菜单不会超出视窗
-      const menuWidth = 150;
-      const menuHeight = 100;
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-
-      menu.style.left = `${Math.min(x, windowWidth - menuWidth)}px`;
-      menu.style.top = `${Math.min(y, windowHeight - menuHeight)}px`;
-      menu.style.display = 'block';
-
-      // 绑定菜单项点击事件
-      const editItem = menu.querySelector('.menu-item.edit');
-      const deleteItem = menu.querySelector('.menu-item.delete');
-
-      editItem.onclick = () => {
-        editBookmark(categoryId, id);  // 使用 categoryId
-        menu.style.display = 'none';
-      };
-
-      deleteItem.onclick = () => {
-        deleteBookmark(categoryId, id);  // 使用 categoryId
-        menu.style.display = 'none';
-      };
-
-      // 点击其他地方关闭菜单
-      const closeMenu = (e) => {
-        if (!menu.contains(e.target)) {
-          menu.style.display = 'none';
-          document.removeEventListener('click', closeMenu);
-        }
-      };
-
-      // 延迟添加点击事件，避免立即触发
-      setTimeout(() => {
-        document.addEventListener('click', closeMenu);
-      }, 0);
-    }
-
-    // 将函数设为全局可访问
-    window.showContextMenu = showContextMenu;
-    window.editBookmark = editBookmark;
-    window.deleteBookmark = deleteBookmark;
-
-    // 更新分组选择下拉框
-    function updateCategorySelect() {
-      const select = document.getElementById('bookmarkCategory');
-      const config = getBookmarkConfig();
-      select.innerHTML = config.categories.map(category => 
-        `<option value="${category.id}">${category.name}</option>`
-      ).join('');
-    }
-
-    // 修改 backupToWebDAV 函数
-    async function backupToWebDAV() {
-      const button = document.getElementById('backupToWebDAVBtn');
-      const originalHtml = button.innerHTML;
-
-      // 获取实时输入的 WebDAV 配置
-      const url = document.getElementById('webdavUrl').value.trim();
-      const username = document.getElementById('webdavUsername').value.trim();
-      const password = document.getElementById('webdavPassword').value.trim();
-      const filename = document.getElementById('webdavFilename').value.trim() || 'nav_backup.json';
-
-      if (!url || !username || !password) {
-        alert('请填写所有 WebDAV 配置项');
-        return;
-      }
-
-      // 保存成功的配置，包括文件名
-      await saveWebDAVConfig({ url, username, password, filename });
-
-      setButtonLoading(button, true);
-
-      try {
-        const backupData = {
-          searchEngine: getStoredSearchEngine(),
-          searchEngines: getSearchEngines(),
-          bookmarkConfig: getBookmarkConfig(),
-          timestamp: new Date().toISOString()
-        };
-
-        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-
-        const response = await fetch(`${url}/${filename}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': 'Basic ' + btoa(username + ':' + password),
-            'Content-Type': 'application/json'
-          },
-          body: blob
-        });
-
-        if (response.ok) {
-          if (response.status === 201) {
-            alert('备份成功！\n备份时间：' + new Date().toLocaleString());
-          } else {
-            alert('备份可能不成功，请到 WebDAV 核实！\n备份时间：' + new Date().toLocaleString());
-          }
-        } else {
-          alert('备份失败：' + response.statusText);
-        }
-      } catch (error) {
-        alert('备份失败：' + error.message);
-      } finally {
-        setButtonLoading(button, false, originalHtml);
-      }
-    }
-
-    // 修改 restoreFromWebDAV 函数
-    async function restoreFromWebDAV() {
-      const button = document.getElementById('restoreFromWebDAVBtn');
-      const originalHtml = button.innerHTML;
-
-      // 获取实时输入的 WebDAV 配置
-      const url = document.getElementById('webdavUrl').value.trim();
-      const username = document.getElementById('webdavUsername').value.trim();
-      const password = document.getElementById('webdavPassword').value.trim();
-      const filename = document.getElementById('webdavFilename').value.trim() || 'nav_backup.json';
-
-      if (!url || !username || !password) {
-        alert('请填写所有 WebDAV 配置项');
-        return;
-      }
-
-      // 保存成功的配置，包括文件名
-      await saveWebDAVConfig({ url, username, password, filename });
-
-      setButtonLoading(button, true);
-
-      try {
-        const backupResponse = await fetch(`${url}/${filename}`, {
-          headers: {
-            'Authorization': 'Basic ' + btoa(username + ':' + password)
-          }
-        });
-
-        if (backupResponse.status === 404) {
-          throw new Error('未找到备份文件');
-        }
-
-        if (!backupResponse.ok) {
-          throw new Error('获取备份文件失败');
-        }
-
-        const backupData = await backupResponse.json();
-        
-        if (!backupData.timestamp) {
-          throw new Error('备份文件格式不正确');
-        }
-
-        // 显示备份时间并确认恢复
-        const backupTime = new Date(backupData.timestamp).toLocaleString();
-        if (!confirm(`确定要恢复以下备份吗？\n备份时间：${backupTime}`)) {
-          setButtonLoading(button, false, originalHtml);
-          return;
-        }
-        
-        // 恢复配置
-        if (backupData.searchEngines) {
-          localStorage.setItem('searchEngines', JSON.stringify(backupData.searchEngines));
-        }
-        if (backupData.searchEngine) {
-          localStorage.setItem('selectedSearchEngine', backupData.searchEngine);
-        }
-        if (backupData.bookmarkConfig) {
-          localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(backupData.bookmarkConfig));
-        }
-
-        alert('恢复成功，页面将刷新！');
-        location.reload();
-      } catch (error) {
-        alert('恢复失败：' + error.message);
-        setButtonLoading(button, false, originalHtml);
-      }
-    }
-
-    // 修改事件监听
-    document.getElementById('backupToWebDAVBtn').addEventListener('click', backupToWebDAV);
-    document.getElementById('restoreFromWebDAVBtn').addEventListener('click', restoreFromWebDAV);
-
-    // 添加加载 WebDAV 配置的函数
-    async function loadWebDAVConfig() {
-      const config = await getWebDAVConfig();
-      if (config) {
-        try {
-          const { url, username, password, filename } = config;
-          document.getElementById('webdavUrl').value = url || '';
-          document.getElementById('webdavUsername').value = username || '';
-          document.getElementById('webdavPassword').value = password || '';
-          document.getElementById('webdavFilename').value = filename || 'nav_backup.json';
-        } catch (error) {
-          console.error('加载 WebDAV 配置失败:', error);
-        }
-      }
-    }
-
-    // 添加全局变量存储 Sortable 实例
-    let categoriesSortable = null;
-
-    // 初始化分组列表
-    function initializeCategoriesList() {
-      const config = getBookmarkConfig();
-      const categoriesList = document.querySelector('.categories-list');
-      
-      categoriesList.innerHTML = config.categories.map(category => `
-        <div class="category-item" data-id="${category.id}">
-          <svg class="drag-handle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <circle cx="4" cy="4" r="1.5"/>
-            <circle cx="4" cy="8" r="1.5"/>
-            <circle cx="4" cy="12" r="1.5"/>
-            <circle cx="12" cy="4" r="1.5"/>
-            <circle cx="12" cy="8" r="1.5"/>
-            <circle cx="12" cy="12" r="1.5"/>
-          </svg>
-          <span class="category-name">${category.name}</span>
-          <div class="category-actions">
-            <button class="category-action-button edit" onclick="editCategory('${category.id}')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
-                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
-              </svg>
-            </button>
-            <button class="category-action-button delete" onclick="deleteCategory('${category.id}')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      // 如果已存在 Sortable 实例，先销毁
-      if (categoriesSortable) {
-        categoriesSortable.destroy();
-      }
-
-      // 初始化 Sortable
-      categoriesSortable = new Sortable(categoriesList, {
-        animation: 150,
-        handle: '.drag-handle',
-        ghostClass: 'sortable-ghost',
-        dragClass: 'sortable-drag',
-        forceFallback: true,
-        fallbackClass: 'sortable-fallback',
-        touchStartThreshold: 5,
-        disabled: false,
-        preventOnFilter: true,
-        supportPointer: true,
-        delayOnTouchOnly: true,
-        delay: 50,
-        onEnd: function(evt) {
-          const config = getBookmarkConfig();
-          const categories = Array.from(categoriesList.children).map(item => {
-            const id = item.dataset.id;
-            return config.categories.find(c => c.id === id);
-          });
-          
-          config.categories = categories;
-          localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-          initializeBookmarks(); // 刷新主界面
-        }
-      });
-    }
-
-    // 显示编辑分组弹窗
-    function showEditCategoryModal(categoryId = null) {
-      const modal = document.getElementById('editCategoryModal');
-      const title = document.getElementById('editCategoryTitle');
-      const nameInput = document.getElementById('categoryName');
-      const idInput = document.getElementById('categoryId');
-      
-      if (categoryId) {
-        const config = getBookmarkConfig();
-        const category = config.categories.find(c => c.id === categoryId);
-        if (category) {
-          title.textContent = '编辑分组';
-          nameInput.value = category.name;
-          idInput.value = categoryId;
-        }
-      } else {
-        title.textContent = '添加分组';
-        nameInput.value = '';
-        idInput.value = '';
-      }
-      
-      modal.classList.add('show');
-    }
-
-    // 编辑分组
-    function editCategory(categoryId) {
-      const config = getBookmarkConfig();
-      const category = config.categories.find(c => c.id === categoryId);
-      
-      if (category) {
-        const modal = document.getElementById('editCategoryModal');
-        const title = document.getElementById('editCategoryTitle');
-        const nameInput = document.getElementById('categoryName');
-        const idInput = document.getElementById('categoryId');
-        
-        title.textContent = '编辑分组';
-        nameInput.value = category.name;
-        idInput.value = categoryId;
-        
-        modal.classList.add('show');
-      }
-    }
-
-    // 删除分组
-    function deleteCategory(categoryId) {
-      const config = getBookmarkConfig();
-      const category = config.categories.find(c => c.id === categoryId);
-      
-      if (!category) return;
-      
-      if (category.links.length > 0) {
-        if (!confirm(`确定要删除分组"${category.name}"吗？\n该分组中的所有链接也会被删除。`)) {
-          return;
-        }
-      } else {
-        if (!confirm(`确定要删除分组"${category.name}"吗？`)) {
-          return;
-        }
-      }
-      
-      config.categories = config.categories.filter(c => c.id !== categoryId);
-      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
-      initializeCategoriesList();
-      initializeBookmarks(); // 刷新主界面
-    }
-
-    // 将函数设为全局可访问
-    window.editCategory = editCategory;
-    window.deleteCategory = deleteCategory;
-
-    // 初始化站内搜索
-    function initializeSiteSearch() {
-      const searchBtn = document.getElementById('siteSearchBtn');
-      const searchModal = document.getElementById('siteSearchModal');
-      const searchInput = document.getElementById('siteSearchInput');
-      const searchResults = document.getElementById('siteSearchResults');
-      let selectedIndex = -1;
-      let searchResultItems = [];
-
-      // 打开搜索弹窗
-      function openSearch() {
-        searchModal.classList.add('show');
-        searchInput.focus();
-      }
-
-      // 关闭搜索弹窗
-      function closeSearch() {
-        searchModal.classList.remove('show');
-        searchInput.value = '';
-        searchResults.innerHTML = '';
-        selectedIndex = -1;
-      }
-
-      // 执行搜索
-      function performSearch(query) {
-        const config = getBookmarkConfig();
-        const results = [];
-        
-        config.categories.forEach(category => {
-          category.links.forEach(link => {
-            if (link.name.toLowerCase().includes(query.toLowerCase()) ||
-                link.url.toLowerCase().includes(query.toLowerCase()) ||
-                (link.note && link.note.toLowerCase().includes(query.toLowerCase()))) {
-              results.push({
-                ...link,
-                categoryName: category.name
-              });
-            }
-          });
-        });
-
-        return results;
-      }
-
-      // 渲染搜索结果
-      function renderSearchResults(results) {
-        if (results.length === 0) {
-          searchResults.innerHTML = '<div class="no-results">未找到相关链接</div>';
-          return;
-        }
-
-        searchResults.innerHTML = results.map((result, index) => `
-          <div class="search-result-item" data-url="${result.url}" data-index="${index}">
-            <div class="search-result-icon">
-            ${isValidUrl(result.icon) 
-              ? `<img src="${result.icon}" alt="" class="quick-link-icon">` 
-              : `<span class="quick-link-icon">${result.icon}</span>`
-            }
-            </div>
-            <div class="search-result-info">
-              <div class="search-result-name">${result.name}</div>
-              <div class="search-result-url">${result.url}</div>
-              ${result.note ? `<div class="search-result-note">${result.note}</div>` : ''}
-            </div>
-            <div class="search-result-category">${result.categoryName}</div>
-          </div>
-        `).join('');
-
-        // 更新结果项引用
-        searchResultItems = searchResults.querySelectorAll('.search-result-item');
-      }
-
-      // 选择结果项
-      function selectResult(index) {
-        searchResultItems.forEach(item => item.classList.remove('selected'));
-        selectedIndex = index;
-        
-        if (selectedIndex >= 0 && selectedIndex < searchResultItems.length) {
-          const selectedItem = searchResultItems[selectedIndex];
-          selectedItem.classList.add('selected');
-          selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
-      }
-
-      // 跳转到选中的链接
-      function navigateToSelected() {
-        if (selectedIndex >= 0 && selectedIndex < searchResultItems.length) {
-          const url = searchResultItems[selectedIndex].dataset.url;
-          window.location.href = url;
-        }
-      }
-
-      // 绑定事件
-      searchBtn.addEventListener('click', openSearch);
-
-      searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.trim();
-        if (query) {
-          const results = performSearch(query);
-          renderSearchResults(results);
-          selectedIndex = -1;
-        } else {
-          searchResults.innerHTML = '';
-        }
-      });
-
-      searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-          e.preventDefault();
-          const direction = e.key === 'ArrowDown' ? 1 : -1;
-          let newIndex = selectedIndex + direction;
-          
-          if (newIndex < 0) {
-            newIndex = searchResultItems.length - 1;
-          } else if (newIndex >= searchResultItems.length) {
-            newIndex = 0;
-          }
-          
-          selectResult(newIndex);
-        } else if (e.key === 'Enter' && selectedIndex >= 0) {
-          e.preventDefault();
-          navigateToSelected();
-        } else if (e.key === 'Escape') {
-          e.preventDefault();
-          closeSearch();
-        }
-      });
-
-      // 点击结果项跳转
-      searchResults.addEventListener('click', (e) => {
-        const resultItem = e.target.closest('.search-result-item');
-        if (resultItem) {
-          window.location.href = resultItem.dataset.url;
-        }
-      });
-
-      // 点击空白处关闭
-      searchModal.addEventListener('click', (e) => {
-        if (e.target === searchModal) {
-          closeSearch();
-        }
-      });
-
-      // 添加快捷键支持
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-          e.preventDefault();
-          openSearch();
-        }
-      });
-    }
-
-    // 添加 URL 验证函数
-    function isValidUrl(str) {
-      try {
-        return str.startsWith('http://') || str.startsWith('https://') || str.startsWith('data:image/');
-      } catch (e) {
-        return false;
-      }
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
 
 <body>
   <div class="container">
     <header class="header">
-      <div class="logo"></div>
+      <div class="logo">导航页</div>
       <div class="header-actions">
         <button class="action-button" id="siteSearchBtn" title="站内搜索 (Ctrl+K)">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3533,23 +1823,17 @@
         <div class="engine-dropdown"></div>
       </div>
 
-      <!-- 添加分组标签导航 -->
       <div class="tabs-container">
         <div class="tabs"></div>
-        <select class="mobile-tabs-select" style="display: none;">
-          <!-- 将由 JavaScript 动态填充 -->
-        </select>
+        <select class="mobile-tabs-select" style="display: none;"></select>
       </div>
 
       <div class="nav-links-container">
-        <div class="content-wrapper">
-          <!-- 内容区域将由 JavaScript 动态生成 -->
-              </div>
-          </div>
+        <div class="content-wrapper"></div>
+      </div>
     </main>
-        </div>
+  </div>
 
-  <!-- 修改添加链接弹窗 -->
   <div class="modal" id="addLinkModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -3558,9 +1842,7 @@
       <div class="modal-body">
         <div class="form-group">
           <label>选择分组</label>
-          <select id="bookmarkCategory">
-            <!-- 动态填充分组选项 -->
-          </select>
+          <select id="bookmarkCategory"></select>
         </div>
         <div class="form-group">
           <label>名称</label>
@@ -3584,7 +1866,6 @@
             <input type="text" id="linkIcon" placeholder="输入 Emoji 或图片链接">
           </div>
           <div class="emoji-picker" id="emojiPicker">
-            <!-- 常用 emoji 列表 -->
             <div class="emoji-item" data-emoji="🔗">🔗</div>
             <div class="emoji-item" data-emoji="📝">📝</div>
             <div class="emoji-item" data-emoji="🌐">🌐</div>
@@ -3625,22 +1906,17 @@
     </div>
   </div>
 
-  <!-- 添加文件输入（隐藏） -->
   <input type="file" id="configFileInput" accept=".json" style="display: none;">
-
-  <!-- 添加设置弹窗 -->
+  <input type="file" id="bookmarkFileInput" accept=".html" style="display: none;">
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <div class="modal-header">
         <h3>设置</h3>
       </div>
       <div class="modal-body">
-        <!-- 在设置弹窗中添加搜索引擎管理部分 -->
         <div class="settings-section">
           <h4>搜索引擎管理</h4>
-          <div class="search-engines-list">
-            <!-- 搜索引擎列表将由 JavaScript 动态生成 -->
-          </div>
+          <div class="search-engines-list"></div>
           <button class="settings-button add-button" id="addEngineBtn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -3693,7 +1969,9 @@
               </button>
               <button class="text-action-button" id="importFromTextBtn" title="从文本导入">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                  <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
                 <span>导入</span>
               </button>
@@ -3701,7 +1979,19 @@
           </div>
         </div>
 
-        <!-- 在设置弹窗中添加 WebDAV 配置部分 -->
+        <div class="settings-section">
+          <h4>书签文件导入</h4>
+          <input type="file" id="bookmarkFileInput" accept=".html" style="display: none;">
+          <button class="settings-button" id="importBookmarkFileBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span>从浏览器书签文件导入</span>
+          </button>
+        </div>
+
         <div class="settings-section">
           <h4>WebDAV 备份</h4>
           <div class="form-group">
@@ -3719,9 +2009,7 @@
           <div class="form-group">
             <label>备份文件名</label>
             <input type="text" id="webdavFilename" value="nav_backup.json">
-            <div class="form-hint" style="color: #666;">
-              建议保持默认文件名，以免恢复时找不到备份文件
-            </div>
+            <div class="form-hint">建议保持默认文件名，以免恢复时找不到备份文件</div>
           </div>
           <div class="settings-buttons">
             <button class="settings-button" id="backupToWebDAVBtn">
@@ -3742,6 +2030,25 @@
             </button>
           </div>
         </div>
+
+        <div class="settings-section">
+          <h4>页面背景设置</h4>
+          <div class="form-group">
+            <label>背景图片 URL（可选，留空使用默认背景）</label>
+            <input type="url" id="backgroundImageUrl" placeholder="输入图片 URL，例如：https://example.com/image.jpg">
+            <div class="form-hint">支持 HTTPS 图片链接，留空使用默认渐变背景。</div>
+          </div>
+          <div class="settings-buttons">
+            <button class="settings-button" id="saveBackgroundBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 14v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7"/>
+                <polyline points="15 4 12 7 9 4"/>
+                <line x1="12" y1="7" x2="12" y2="15"/>
+              </svg>
+              <span>保存背景</span>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="modal-button cancel-button" id="closeSettingsButton">关闭</button>
@@ -3749,7 +2056,6 @@
     </div>
   </div>
 
-  <!-- 添加搜索引擎弹窗 -->
   <div class="modal" id="addEngineModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -3771,7 +2077,6 @@
     </div>
   </div>
 
-  <!-- 添加分组管理弹窗 -->
   <div class="modal" id="categoryModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -3779,9 +2084,7 @@
       </div>
       <div class="modal-body categories-section">
         <div class="categories-list-wrapper">
-          <div class="categories-list">
-            <!-- 分组列表将由 JavaScript 动态生成 -->
-          </div>
+          <div class="categories-list"></div>
         </div>
         <button class="settings-button add-button" id="addNewCategoryBtn">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3797,7 +2100,6 @@
     </div>
   </div>
 
-  <!-- 添加/编辑分组弹窗 -->
   <div class="modal" id="editCategoryModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -3815,7 +2117,6 @@
     </div>
   </div>
 
-  <!-- 添加站内搜索弹窗 -->
   <div class="modal" id="siteSearchModal">
     <div class="modal-content search-modal">
       <div class="site-search-container">
@@ -3835,12 +2136,1272 @@
             <span>关闭</span>
           </div>
         </div>
-        <div class="search-results" id="siteSearchResults">
-          <!-- 搜索结果将在这里动态显示 -->
-        </div>
+        <div class="search-results" id="siteSearchResults"></div>
       </div>
     </div>
   </div>
+
+  <script type="module">
+    import { 
+      defaultSearchEngines as searchEngines,
+      getStoredSearchEngine, 
+      saveSearchEngineSelection,
+      STORAGE_KEYS,
+      bookmarkConfig,
+      getBookmarkConfig,
+      getSearchEngines,
+      getWebDAVConfig,
+      saveWebDAVConfig,
+      generateId,
+      linkOpenConfig
+    } from './config.js';
+    
+    const DEFAULT_ICON = '🔗';
+
+    function initializeSearch() {
+      const searchBox = document.querySelector('.search-box');
+      const searchButton = document.querySelector('.search-button');
+      const engineButton = document.querySelector('.search-engine');
+      const engineDropdown = document.querySelector('.engine-dropdown');
+      
+      initEngineDropdown();
+      updateCurrentEngine();
+      
+      searchBox.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+      });
+      
+      searchButton.addEventListener('click', performSearch);
+      
+      engineButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        engineDropdown.classList.toggle('show');
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (!engineButton.contains(e.target) && !engineDropdown.contains(e.target)) {
+          engineDropdown.classList.remove('show');
+        }
+      });
+    }
+    
+    function performSearch() {
+      const searchBox = document.querySelector('.search-box');
+      const query = searchBox.value.trim();
+      if (!query) return;
+
+      const engines = getSearchEngines();
+      const currentEngineId = getStoredSearchEngine();
+      const engine = engines.find(e => e.id === currentEngineId);
+      
+      if (engine) {
+        const searchUrl = engine.url.replace('{q}', encodeURIComponent(query));
+        window.open(searchUrl, '_blank');
+      }
+    }
+
+    function initEngineDropdown() {
+      const dropdown = document.querySelector('.engine-dropdown');
+      const engines = getSearchEngines();
+      
+      dropdown.innerHTML = engines.map(engine => `
+        <div class="engine-option" data-id="${engine.id}">
+          ${engine.name}
+        </div>
+      `).join('');
+      
+      dropdown.querySelectorAll('.engine-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          const engineId = e.currentTarget.dataset.id;
+          saveSearchEngineSelection(engineId);
+          updateCurrentEngine();
+          dropdown.classList.remove('show');
+        });
+      });
+    }
+    
+    function updateCurrentEngine() {
+      const currentEngineId = getStoredSearchEngine();
+      const engines = getSearchEngines();
+      const engine = engines.find(e => e.id === currentEngineId);
+      
+      if (engine) {
+        document.getElementById('currentEngineName').textContent = engine.name;
+      }
+    }
+
+    function initializeSiteSearch() {
+      const searchBtn = document.getElementById('siteSearchBtn');
+      const searchModal = document.getElementById('siteSearchModal');
+      const searchInput = document.getElementById('siteSearchInput');
+      const searchResults = document.getElementById('siteSearchResults');
+      let selectedIndex = -1;
+      let searchResultItems = [];
+
+      function openSearch() {
+        searchModal.classList.add('show');
+        searchInput.focus();
+      }
+
+      function closeSearch() {
+        searchModal.classList.remove('show');
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+        selectedIndex = -1;
+      }
+
+      function performSearch(query) {
+        const config = getBookmarkConfig();
+        const results = [];
+        
+        config.categories.forEach(category => {
+          category.links.forEach(link => {
+            if (link.name.toLowerCase().includes(query.toLowerCase()) ||
+                link.url.toLowerCase().includes(query.toLowerCase()) ||
+                (link.note && link.note.toLowerCase().includes(query.toLowerCase()))) {
+              results.push({ ...link, categoryName: category.name });
+            }
+          });
+        });
+        return results;
+      }
+
+      function renderSearchResults(results) {
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="no-results">未找到相关链接</div>';
+          return;
+        }
+
+        searchResults.innerHTML = results.map((result, index) => `
+          <div class="search-result-item" data-url="${result.url}" data-index="${index}">
+            <div class="search-result-icon">
+              ${isValidUrl(result.icon) 
+                ? `<img src="${result.icon}" alt="" class="quick-link-icon">` 
+                : `<span class="quick-link-icon">${result.icon}</span>`}
+            </div>
+            <div class="search-result-info">
+              <div class="search-result-name">${result.name}</div>
+              <div class="search-result-url">${result.url}</div>
+              ${result.note ? `<div class="search-result-note">${result.note}</div>` : ''}
+            </div>
+            <div class="search-result-category">${result.categoryName}</div>
+          </div>
+        `).join('');
+
+        searchResultItems = searchResults.querySelectorAll('.search-result-item');
+      }
+
+      function selectResult(index) {
+        searchResultItems.forEach(item => item.classList.remove('selected'));
+        selectedIndex = index;
+        if (selectedIndex >= 0 && selectedIndex < searchResultItems.length) {
+          const selectedItem = searchResultItems[selectedIndex];
+          selectedItem.classList.add('selected');
+          selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+
+      function navigateToSelected() {
+        if (selectedIndex >= 0 && selectedIndex < searchResultItems.length) {
+          const url = searchResultItems[selectedIndex].dataset.url;
+          window.open(url, '_blank'); // 在新标签页打开
+        }
+      }
+
+      searchBtn.addEventListener('click', openSearch);
+
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        if (query) {
+          const results = performSearch(query);
+          renderSearchResults(results);
+          selectedIndex = -1;
+        } else {
+          searchResults.innerHTML = '';
+        }
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const direction = e.key === 'ArrowDown' ? 1 : -1;
+          let newIndex = selectedIndex + direction;
+          if (newIndex < 0) newIndex = searchResultItems.length - 1;
+          else if (newIndex >= searchResultItems.length) newIndex = 0;
+          selectResult(newIndex);
+        } else if (e.key === 'Enter' && selectedIndex >= 0) {
+          e.preventDefault();
+          navigateToSelected();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          closeSearch();
+        }
+      });
+
+      searchResults.addEventListener('click', (e) => {
+        const resultItem = e.target.closest('.search-result-item');
+        if (resultItem) window.open(resultItem.dataset.url, '_blank');
+      });
+
+      searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal) closeSearch();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          openSearch();
+        }
+      });
+    }
+
+    function initializeBookmarks() {
+      const currentBookmarkConfig = getBookmarkConfig();
+      
+      const tabsContainer = document.querySelector('.tabs');
+      const mobileSelect = document.querySelector('.mobile-tabs-select');
+      
+      tabsContainer.innerHTML = currentBookmarkConfig.categories.map((category, index) => 
+        `<div class="tab${index === 0 ? ' active' : ''}" data-target="${category.id}">${category.name}</div>`
+      ).join('');
+      
+      mobileSelect.innerHTML = currentBookmarkConfig.categories.map((category, index) => 
+        `<option value="${category.id}"${index === 0 ? ' selected' : ''}>${category.name}</option>`
+      ).join('');
+
+      requestAnimationFrame(updateTabIndicator);
+
+      const contentWrapper = document.querySelector('.content-wrapper');
+      contentWrapper.innerHTML = currentBookmarkConfig.categories.map((category, index) => `
+        <div class="content${index === 0 ? ' active' : ''}" id="${category.id}">
+          <div class="button-grid"></div>
+        </div>
+      `).join('');
+
+      currentBookmarkConfig.categories.forEach(category => {
+        const content = document.getElementById(category.id);
+        if (!content) return;
+        
+        const buttonGrid = content.querySelector('.button-grid');
+        buttonGrid.innerHTML = category.links.map(link => `
+          <a href="${link.url}" 
+             class="button" 
+             data-id="${link.id}"
+             data-category-id="${category.id}"
+             target="${linkOpenConfig.openInNewTab ? '_blank' : '_self'}"
+             oncontextmenu="showContextMenu(event, this); return false;">
+            <div class="button-content">
+              <div class="button-main">
+                ${isValidUrl(link.icon) 
+                  ? `<img src="${link.icon}" alt="" class="quick-link-icon">` 
+                  : `<span class="quick-link-icon">${link.icon}</span>`
+                } 
+                <span>${link.name}</span>
+              </div>
+              ${link.note ? `<div class="button-note">${link.note}</div>` : ''}
+            </div>
+          </a>
+        `).join('');
+      });
+
+      initializeTabEvents();
+    }
+
+    function initializeTabEvents() {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.content');
+      const mobileSelect = document.querySelector('.mobile-tabs-select');
+      let currentContent = document.querySelector('.content.active');
+      let currentTab = document.querySelector('.tab.active');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => switchContent(tab.getAttribute('data-target')));
+      });
+
+      mobileSelect.addEventListener('change', (e) => {
+        switchContent(e.target.value);
+        e.target.blur();
+      });
+
+      function switchContent(targetId) {
+        const nextContent = document.getElementById(targetId);
+        if (currentContent === nextContent) return;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        const newTab = Array.from(tabs).find(t => t.getAttribute('data-target') === targetId);
+        if (newTab) {
+          newTab.classList.add('active');
+          updateTabIndicator();
+        }
+
+        mobileSelect.value = targetId;
+
+        const currentIndex = Array.from(contents).indexOf(currentContent);
+        const nextIndex = Array.from(contents).indexOf(nextContent);
+        const isMovingRight = nextIndex > currentIndex;
+
+        currentContent.style.display = 'block';
+        currentContent.classList.add(isMovingRight ? 'slide-out-left' : 'slide-out-right');
+
+        setTimeout(() => {
+          contents.forEach(c => {
+            c.classList.remove('active', 'slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
+            c.style.opacity = '';
+            c.style.transform = '';
+            c.style.display = 'none';
+          });
+          nextContent.style.display = 'block';
+          nextContent.classList.add('active', isMovingRight ? 'slide-in-right' : 'slide-in-left');
+          currentContent = nextContent;
+          currentTab = newTab;
+        }, 300);
+      }
+    }
+
+    function updateTabIndicator() {
+      const activeTab = document.querySelector('.tab.active');
+      const tabsContainer = document.querySelector('.tabs');
+      if (!activeTab || !tabsContainer) return;
+      
+      if (window.innerWidth <= 480) {
+        const tabHeight = activeTab.offsetHeight;
+        const tabTop = activeTab.offsetTop;
+        const tabs = document.querySelectorAll('.tab');
+        const tabCount = tabs.length;
+        const slideHeight = (100 / tabCount).toFixed(2);
+        tabsContainer.style.setProperty('--slide-top', `${tabTop}px`);
+        tabsContainer.style.setProperty('--slide-height', `${slideHeight}%`);
+        tabsContainer.style.removeProperty('--slide-left');
+        tabsContainer.style.removeProperty('--slide-width');
+      } else {
+        const tabWidth = activeTab.offsetWidth || 0;
+        const tabHeight = activeTab.offsetHeight || 0;
+        const tabLeft = activeTab.offsetLeft || 0;
+        const tabTop = activeTab.offsetTop || 0;
+        tabsContainer.style.setProperty('--slide-left', `${tabLeft}px`);
+        tabsContainer.style.setProperty('--slide-width', `${tabWidth}px`);
+        tabsContainer.style.setProperty('--slide-top', `${tabTop}px`);
+        tabsContainer.style.setProperty('--slide-height', `${tabHeight}px`);
+      }
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateTabIndicator, 100);
+    });
+
+    function initSearchEnginesList() {
+      const list = document.querySelector('.search-engines-list');
+      const engines = getSearchEngines();
+      
+      list.innerHTML = engines.map(engine => `
+        <div class="search-engine-item" data-id="${engine.id}">
+          <div class="search-engine-info">
+            <div class="engine-name">${engine.name}</div>
+            <div class="engine-url">${engine.url}</div>
+          </div>
+          <div class="engine-actions">
+            <button class="engine-action-button edit" title="编辑">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            <button class="engine-action-button delete" title="删除">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('.engine-action-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const id = e.target.closest('.search-engine-item').dataset.id;
+          if (button.classList.contains('edit')) {
+            editSearchEngine(id);
+          } else if (button.classList.contains('delete')) {
+            deleteSearchEngine(id);
+          }
+        });
+      });
+    }
+
+    function addSearchEngine() {
+      const name = document.getElementById('engineName').value.trim();
+      const url = document.getElementById('engineUrl').value.trim();
+
+      if (!name || !url) {
+        alert('请填写所有字段');
+        return;
+      }
+
+      if (!url.includes('{q}')) {
+        alert('URL 必须包含 {q} 作为搜索关键词的占位符');
+        return;
+      }
+
+      const engines = getSearchEngines();
+      const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      
+      if (engines.some(e => e.name.toLowerCase() === name.toLowerCase())) {
+        alert('已存在同名的搜索引擎');
+        return;
+      }
+
+      engines.push({ id, name, url });
+      localStorage.setItem('searchEngines', JSON.stringify(engines));
+      
+      closeModal(document.getElementById('addEngineModal'));
+      initSearchEnginesList();
+      initEngineDropdown();
+      exportConfigToText();
+    }
+
+    function editSearchEngine(id) {
+      const engines = getSearchEngines();
+      const engine = engines.find(e => e.id === id);
+      if (!engine) return;
+
+      document.getElementById('engineName').value = engine.name;
+      document.getElementById('engineUrl').value = engine.url;
+
+      const modal = document.getElementById('addEngineModal');
+      modal.classList.add('show');
+
+      const saveButton = document.getElementById('saveEngineButton');
+      saveButton.onclick = () => {
+        const name = document.getElementById('engineName').value.trim();
+        const url = document.getElementById('engineUrl').value.trim();
+
+        if (!name || !url) {
+          alert('请填写所有字段');
+          return;
+        }
+
+        if (!url.includes('{q}')) {
+          alert('URL 必须包含 {q} 作为搜索关键词的占位符');
+          return;
+        }
+
+        if (engines.some(e => e.id !== id && e.name.toLowerCase() === name.toLowerCase())) {
+          alert('已存在同名的搜索引擎');
+          return;
+        }
+
+        const index = engines.findIndex(e => e.id === id);
+        engines[index] = { ...engine, name, url };
+        localStorage.setItem('searchEngines', JSON.stringify(engines));
+
+        modal.classList.remove('show');
+        initSearchEnginesList();
+        initEngineDropdown();
+        exportConfigToText();
+        
+        const currentEngine = getStoredSearchEngine();
+        if (id === currentEngine) updateCurrentEngine();
+      };
+    }
+
+    function deleteSearchEngine(id) {
+      if (!confirm('确定要删除这个搜索引擎吗？')) return;
+      
+      const engines = getSearchEngines();
+      const engine = engines.find(e => e.id === id);
+      
+      const currentEngine = getStoredSearchEngine();
+      if (id === currentEngine) {
+        alert('无法删除当前正在使用的搜索引擎');
+        return;
+      }
+      
+      if (engine.isDefault) {
+        alert('无法删除默认搜索引擎');
+        return;
+      }
+
+      const newEngines = engines.filter(e => e.id !== id);
+      localStorage.setItem('searchEngines', JSON.stringify(newEngines));
+      initSearchEnginesList();
+      initEngineDropdown();
+      exportConfigToText();
+    }
+
+    window.deleteSearchEngine = deleteSearchEngine;
+
+    function resetConfig() {
+      if (confirm('确定要重置所有配置吗？这将删除所有自定义设置，包括搜索引擎、快速访问链接等。')) {
+        localStorage.clear();
+        alert('配置已重置，页面将刷新。');
+        location.reload();
+      }
+    }
+
+    window.resetConfig = resetConfig;
+
+    function setButtonLoading(button, isLoading) {
+      if (isLoading) {
+        button.disabled = true;
+        button.classList.add('loading');
+        button.dataset.originalHtml = button.innerHTML;
+        button.innerHTML = `
+          <div class="loading-content">
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span>处理中</span>
+          </div>
+        `;
+      } else {
+        button.disabled = false;
+        button.classList.remove('loading');
+        button.innerHTML = button.dataset.originalHtml;
+      }
+    }
+
+    async function importConfig(file) {
+      try {
+        const text = await file.text();
+        const config = JSON.parse(text);
+        if (config.searchEngines) localStorage.setItem('searchEngines', JSON.stringify(config.searchEngines));
+        if (config.searchEngine) saveSearchEngineSelection(config.searchEngine);
+        if (config.bookmarkConfig) localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config.bookmarkConfig));
+        alert('配置导入成功！');
+        location.reload();
+      } catch (error) {
+        console.error('导入配置失败:', error);
+        alert('导入配置失败，请确保文件格式正确！');
+      }
+    }
+
+    async function importConfigFromText() {
+      try {
+        const configText = document.getElementById('configText').value.trim();
+        if (!configText) {
+          alert('请先输入配置文本');
+          return;
+        }
+        const config = JSON.parse(configText);
+        await importConfig(new Blob([configText], { type: 'application/json' }));
+      } catch (error) {
+        console.error('导入配置失败:', error);
+        alert('导入配置失败，请确保文本格式正确！');
+      }
+    }
+
+    function copyConfigText() {
+      const configText = document.getElementById('configText').value;
+      try {
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = configText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+        alert('配置已复制到剪贴板');
+      } catch (err) {
+        console.error('复制失败:', err);
+        alert('复制失败，请手动复制');
+      }
+    }
+
+    function exportConfig() {
+      const config = {
+        searchEngine: getStoredSearchEngine(),
+        searchEngines: getSearchEngines(),
+        bookmarkConfig: getBookmarkConfig()
+      };
+      const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `config_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportConfigToText() {
+      const config = {
+        searchEngine: getStoredSearchEngine(),
+        searchEngines: getSearchEngines(),
+        bookmarkConfig: getBookmarkConfig()
+      };
+      document.getElementById('configText').value = JSON.stringify(config, null, 2);
+    }
+
+    function showContextMenu(e, link) {
+      e.preventDefault();
+      const id = link.dataset.id;
+      const categoryId = link.dataset.categoryId;
+
+      const menu = document.getElementById('quickLinkMenu');
+      const rect = link.getBoundingClientRect();
+      const x = e.clientX;
+      const y = e.clientY;
+
+      const menuWidth = 150;
+      const menuHeight = 100;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      menu.style.left = `${Math.min(x, windowWidth - menuWidth)}px`;
+      menu.style.top = `${Math.min(y, windowHeight - menuHeight)}px`;
+      menu.style.display = 'block';
+
+      const editItem = menu.querySelector('.menu-item.edit');
+      const deleteItem = menu.querySelector('.menu-item.delete');
+
+      editItem.onclick = () => {
+        editBookmark(categoryId, id);
+        menu.style.display = 'none';
+      };
+
+      deleteItem.onclick = () => {
+        deleteBookmark(categoryId, id);
+        menu.style.display = 'none';
+      };
+
+      const closeMenu = (e) => {
+        if (!menu.contains(e.target)) {
+          menu.style.display = 'none';
+          document.removeEventListener('click', closeMenu);
+        }
+      };
+
+      setTimeout(() => document.addEventListener('click', closeMenu), 0);
+    }
+
+    window.showContextMenu = showContextMenu;
+    window.editBookmark = editBookmark;
+    window.deleteBookmark = deleteBookmark;
+
+    function updateCategorySelect() {
+      const select = document.getElementById('bookmarkCategory');
+      const config = getBookmarkConfig();
+      select.innerHTML = config.categories.map(category => 
+        `<option value="${category.id}">${category.name}</option>`
+      ).join('');
+    }
+
+    function validateForm() {
+      const name = document.getElementById('linkName').value.trim();
+      const url = document.getElementById('linkUrl').value.trim();
+      const icon = document.getElementById('linkIcon').value.trim() || DEFAULT_ICON;
+      const note = document.getElementById('linkNote').value.trim();
+      const iconType = document.getElementById('iconType').value;
+      
+      if (!name || !url) {
+        alert('请填写名称和链接');
+        return null;
+      }
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        alert('请输入有效的URL地址');
+        return null;
+      }
+      if (iconType === 'url' && !isValidUrl(icon)) {
+        alert('请输入有效的图标URL地址');
+        return null;
+      }
+      return { name, url, icon, note };
+    }
+
+    function resetForm() {
+      document.getElementById('linkName').value = '';
+      document.getElementById('linkUrl').value = '';
+      document.getElementById('linkIcon').value = '';
+      document.getElementById('linkNote').value = '';
+      document.getElementById('iconType').value = 'emoji';
+      document.getElementById('emojiPicker').classList.add('show');
+    }
+
+    function saveBookmark() {
+      const formData = validateForm();
+      if (!formData) return;
+
+      const categoryId = document.getElementById('bookmarkCategory').value;
+      const config = getBookmarkConfig();
+      
+      const category = config.categories.find(c => c.id === categoryId);
+      if (!category) {
+        alert('分组不存在');
+        return;
+      }
+      
+      formData.id = generateId(categoryId + '_');
+      category.links.push(formData);
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+      
+      closeModal(document.getElementById('addLinkModal'));
+      location.reload();
+    }
+
+    function editBookmark(categoryId, linkId) {
+      const config = getBookmarkConfig();
+      const category = config.categories.find(c => c.id === categoryId);
+      if (!category) return;
+      
+      const bookmark = category.links.find(link => link.id === linkId);
+      if (!bookmark) return;
+
+      updateCategorySelect();
+      document.querySelector('#addLinkModal .modal-header h3').textContent = '编辑链接';
+      document.getElementById('bookmarkCategory').value = categoryId;
+      document.getElementById('linkName').value = bookmark.name;
+      document.getElementById('linkUrl').value = bookmark.url;
+      document.getElementById('linkIcon').value = bookmark.icon;
+      document.getElementById('linkNote').value = bookmark.note || '';
+      
+      const iconType = document.getElementById('iconType');
+      const emojiPicker = document.getElementById('emojiPicker');
+      if (isValidUrl(bookmark.icon)) {
+        iconType.value = 'url';
+      } else {
+        iconType.value = 'emoji';
+        emojiPicker.classList.add('show');
+      }
+      
+      document.getElementById('addLinkModal').classList.add('show');
+
+      const saveButton = document.getElementById('saveButton');
+      saveButton.removeEventListener('click', saveBookmark);
+
+      saveButton.onclick = () => {
+        const formData = validateForm();
+        if (!formData) return;
+
+        const newCategoryId = document.getElementById('bookmarkCategory').value;
+        
+        if (newCategoryId !== categoryId) {
+          const linkIndex = category.links.findIndex(link => link.id === linkId);
+          if (linkIndex !== -1) category.links.splice(linkIndex, 1);
+          
+          const newCategory = config.categories.find(c => c.id === newCategoryId);
+          if (newCategory) {
+            formData.id = linkId;
+            newCategory.links.push(formData);
+          }
+        } else {
+          formData.id = linkId;
+          const linkIndex = category.links.findIndex(link => link.id === linkId);
+          category.links[linkIndex] = formData;
+        }
+
+        localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+        saveButton.addEventListener('click', saveBookmark);
+        document.querySelector('#addLinkModal .modal-header h3').textContent = '添加链接';
+        document.getElementById('addLinkModal').classList.remove('show');
+        resetForm();
+        closeModal(document.getElementById('addLinkModal'));
+        location.reload();
+      };
+    }
+
+    function deleteBookmark(categoryId, linkId) {
+      if (!confirm('确定要删除这个链接吗？')) return;
+
+      const config = getBookmarkConfig();
+      const category = config.categories.find(c => c.id === categoryId);
+      if (!category) return;
+      
+      const linkIndex = category.links.findIndex(link => link.id === linkId);
+      if (linkIndex === -1) return;
+      
+      category.links.splice(linkIndex, 1);
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+      closeModal(document.getElementById('addLinkModal'));
+      location.reload();
+    }
+
+    function saveCategory() {
+      const nameInput = document.getElementById('categoryName');
+      const idInput = document.getElementById('categoryId');
+      const name = nameInput.value.trim();
+      
+      if (!name) {
+        alert('请输入分组名称');
+        return;
+      }
+      
+      const config = getBookmarkConfig();
+      const categoryId = idInput.value;
+      
+      if (categoryId) {
+        const category = config.categories.find(c => c.id === categoryId);
+        if (category) category.name = name;
+      } else {
+        config.categories.push({
+          id: generateId(),
+          name: name,
+          links: []
+        });
+      }
+      
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+      closeModal(document.getElementById('editCategoryModal'));
+      initializeCategoriesList();
+      initializeBookmarks();
+    }
+
+    function initializeCategoriesList() {
+      const config = getBookmarkConfig();
+      const categoriesList = document.querySelector('.categories-list');
+      
+      categoriesList.innerHTML = config.categories.map(category => `
+        <div class="category-item" data-id="${category.id}">
+          <svg class="drag-handle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <circle cx="4" cy="4" r="1.5"/>
+            <circle cx="4" cy="8" r="1.5"/>
+            <circle cx="4" cy="12" r="1.5"/>
+            <circle cx="12" cy="4" r="1.5"/>
+            <circle cx="12" cy="8" r="1.5"/>
+            <circle cx="12" cy="12" r="1.5"/>
+          </svg>
+          <span class="category-name">${category.name}</span>
+          <div class="category-actions">
+            <button class="category-action-button edit" onclick="editCategory('${category.id}')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+              </svg>
+            </button>
+            <button class="category-action-button delete" onclick="deleteCategory('${category.id}')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      if (categoriesSortable) categoriesSortable.destroy();
+
+      categoriesSortable = new Sortable(categoriesList, {
+        animation: 150,
+        handle: '.drag-handle',
+        ghostClass: 'sortable-ghost',
+        dragClass: 'sortable-drag',
+        forceFallback: true,
+        fallbackClass: 'sortable-fallback',
+        touchStartThreshold: 5,
+        disabled: false,
+        supportPointer: true,
+        delayOnTouchOnly: true,
+        delay: 50,
+        onEnd: function(evt) {
+          const config = getBookmarkConfig();
+          const categories = Array.from(categoriesList.children).map(item => {
+            const id = item.dataset.id;
+            return config.categories.find(c => c.id === id);
+          });
+          config.categories = categories;
+          localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+          initializeBookmarks();
+        }
+      });
+    }
+
+    function editCategory(categoryId) {
+      const config = getBookmarkConfig();
+      const category = config.categories.find(c => c.id === categoryId);
+      if (category) {
+        const modal = document.getElementById('editCategoryModal');
+        const title = document.getElementById('editCategoryTitle');
+        const nameInput = document.getElementById('categoryName');
+        const idInput = document.getElementById('categoryId');
+        
+        title.textContent = '编辑分组';
+        nameInput.value = category.name;
+        idInput.value = categoryId;
+        modal.classList.add('show');
+      }
+    }
+
+    function deleteCategory(categoryId) {
+      const config = getBookmarkConfig();
+      const category = config.categories.find(c => c.id === categoryId);
+      
+      if (!category) return;
+      
+      if (category.links.length > 0) {
+        if (!confirm(`确定要删除分组"${category.name}"吗？\n该分组中的所有链接也会被删除。`)) return;
+      } else {
+        if (!confirm(`确定要删除分组"${category.name}"吗？`)) return;
+      }
+      
+      config.categories = config.categories.filter(c => c.id !== categoryId);
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+      initializeCategoriesList();
+      initializeBookmarks();
+    }
+
+    window.editCategory = editCategory;
+    window.deleteCategory = deleteCategory;
+
+    let categoriesSortable = null;
+
+    async function backupToWebDAV() {
+      const button = document.getElementById('backupToWebDAVBtn');
+      const url = document.getElementById('webdavUrl').value.trim();
+      const username = document.getElementById('webdavUsername').value.trim();
+      const password = document.getElementById('webdavPassword').value.trim();
+      const filename = document.getElementById('webdavFilename').value.trim() || 'nav_backup.json';
+
+      if (!url || !username || !password) {
+        alert('请填写所有 WebDAV 配置项');
+        return;
+      }
+
+      await saveWebDAVConfig({ url, username, password, filename });
+      setButtonLoading(button, true);
+
+      try {
+        const backupData = {
+          searchEngine: getStoredSearchEngine(),
+          searchEngines: getSearchEngines(),
+          bookmarkConfig: getBookmarkConfig(),
+          timestamp: new Date().toISOString()
+        };
+
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+        const response = await fetch(`${url}/${filename}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Basic ' + btoa(username + ':' + password),
+            'Content-Type': 'application/json'
+          },
+          body: blob
+        });
+
+        if (response.ok) {
+          alert('备份成功！\n备份时间：' + new Date().toLocaleString());
+        } else {
+          alert('备份失败：' + response.statusText);
+        }
+      } catch (error) {
+        alert('备份失败：' + error.message);
+      } finally {
+        setButtonLoading(button, false);
+      }
+    }
+
+    async function restoreFromWebDAV() {
+      const button = document.getElementById('restoreFromWebDAVBtn');
+      const url = document.getElementById('webdavUrl').value.trim();
+      const username = document.getElementById('webdavUsername').value.trim();
+      const password = document.getElementById('webdavPassword').value.trim();
+      const filename = document.getElementById('webdavFilename').value.trim() || 'nav_backup.json';
+
+      if (!url || !username || !password) {
+        alert('请填写所有 WebDAV 配置项');
+        return;
+      }
+
+      await saveWebDAVConfig({ url, username, password, filename });
+      setButtonLoading(button, true);
+
+      try {
+        const backupResponse = await fetch(`${url}/${filename}`, {
+          headers: { 'Authorization': 'Basic ' + btoa(username + ':' + password) }
+        });
+
+        if (backupResponse.status === 404) throw new Error('未找到备份文件');
+        if (!backupResponse.ok) throw new Error('获取备份文件失败');
+
+        const backupData = await backupResponse.json();
+        if (!backupData.timestamp) throw new Error('备份文件格式不正确');
+
+        const backupTime = new Date(backupData.timestamp).toLocaleString();
+        if (!confirm(`确定要恢复以下备份吗？\n备份时间：${backupTime}`)) {
+          setButtonLoading(button, false);
+          return;
+        }
+
+        if (backupData.searchEngines) localStorage.setItem('searchEngines', JSON.stringify(backupData.searchEngines));
+        if (backupData.searchEngine) localStorage.setItem('selectedSearchEngine', backupData.searchEngine);
+        if (backupData.bookmarkConfig) localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(backupData.bookmarkConfig));
+
+        alert('恢复成功，页面将刷新！');
+        location.reload();
+      } catch (error) {
+        alert('恢复失败：' + error.message);
+        setButtonLoading(button, false);
+      }
+    }
+
+    document.getElementById('backupToWebDAVBtn').addEventListener('click', backupToWebDAV);
+    document.getElementById('restoreFromWebDAVBtn').addEventListener('click', restoreFromWebDAV);
+
+    async function loadWebDAVConfig() {
+      const config = await getWebDAVConfig();
+      if (config) {
+        try {
+          const { url, username, password, filename } = config;
+          document.getElementById('webdavUrl').value = url || '';
+          document.getElementById('webdavUsername').value = username || '';
+          document.getElementById('webdavPassword').value = password || '';
+          document.getElementById('webdavFilename').value = filename || 'nav_backup.json';
+        } catch (error) {
+          console.error('加载 WebDAV 配置失败:', error);
+        }
+      }
+    }
+
+    function importBookmarkFile(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(e.target.result, 'text/html');
+        const bookmarks = parseBookmarkHtml(doc);
+        integrateBookmarks(bookmarks);
+      };
+      reader.readAsText(file);
+    }
+
+    function parseBookmarkHtml(doc) {
+      const bookmarks = [];
+      const folders = doc.querySelectorAll('dt > h3');
+      
+      folders.forEach(folder => {
+        const categoryName = folder.textContent.trim();
+        const categoryId = generateId(categoryName.toLowerCase().replace(/\s+/g, '_') + '_');
+        const links = [];
+        
+        const siblingDl = folder.nextElementSibling;
+        if (siblingDl && siblingDl.tagName === 'DL') {
+          const items = siblingDl.querySelectorAll('dt > a');
+          items.forEach(item => {
+            links.push({
+              id: generateId(categoryId + '_'),
+              name: item.textContent.trim(),
+              url: item.getAttribute('href'),
+              icon: '🔗'
+            });
+          });
+        }
+        
+        bookmarks.push({ id: categoryId, name: categoryName, links });
+      });
+      
+      const rootItems = doc.querySelectorAll('dl > dt > a');
+      if (rootItems.length) {
+        const uncategorized = { id: 'uncategorized', name: '未分类', links: [] };
+        rootItems.forEach(item => {
+          uncategorized.links.push({
+            id: generateId('uncategorized_'),
+            name: item.textContent.trim(),
+            url: item.getAttribute('href'),
+            icon: '🔗'
+          });
+        });
+        bookmarks.push(uncategorized);
+      }
+      
+      return bookmarks;
+    }
+
+    function integrateBookmarks(newCategories) {
+      const config = getBookmarkConfig();
+      newCategories.forEach(newCat => {
+        const existingCat = config.categories.find(c => c.name === newCat.name);
+        if (existingCat) {
+          newCat.links.forEach(link => {
+            if (!existingCat.links.some(l => l.url === link.url)) {
+              link.id = generateId(existingCat.id + '_');
+              existingCat.links.push(link);
+            }
+          });
+        } else {
+          config.categories.push(newCat);
+        }
+      });
+      localStorage.setItem(STORAGE_KEYS.BOOKMARK_CONFIG, JSON.stringify(config));
+      alert('书签导入成功');
+      initializeBookmarks();
+    }
+
+    function initializeEventListeners() {
+      document.getElementById('siteSearchBtn').addEventListener('click', () => {
+        document.getElementById('siteSearchModal').classList.add('show');
+        document.getElementById('siteSearchInput').focus();
+      });
+
+      document.getElementById('addCategoryBtn').addEventListener('click', () => {
+        document.getElementById('categoryModal').classList.add('show');
+        initializeCategoriesList(); // 确保在显示时初始化分组列表
+      });
+
+      document.getElementById('settingsButton').addEventListener('click', () => {
+        document.getElementById('settingsModal').classList.add('show');
+        initSearchEnginesList();
+        exportConfigToText();
+        loadWebDAVConfig();
+      });
+
+      document.getElementById('closeSettingsButton').addEventListener('click', () => closeModal(document.getElementById('settingsModal')));
+      document.getElementById('closeCategoryModal').addEventListener('click', () => closeModal(document.getElementById('categoryModal')));
+      document.getElementById('addNewCategoryBtn').addEventListener('click', () => {
+        document.getElementById('editCategoryModal').classList.add('show');
+        document.getElementById('editCategoryTitle').textContent = '添加分组';
+        document.getElementById('categoryName').value = '';
+        document.getElementById('categoryId').value = '';
+      });
+
+      document.getElementById('addBookmarkBtn').addEventListener('click', () => {
+        updateCategorySelect();
+        document.getElementById('iconType').value = 'emoji';
+        document.getElementById('emojiPicker').classList.add('show');
+        document.getElementById('addLinkModal').classList.add('show');
+      });
+
+      document.getElementById('cancelCategoryButton').addEventListener('click', () => closeModal(document.getElementById('editCategoryModal')));
+      document.getElementById('cancelButton').addEventListener('click', () => closeModal(document.getElementById('addLinkModal')));
+      document.getElementById('saveCategoryButton').addEventListener('click', saveCategory);
+      document.getElementById('saveButton').addEventListener('click', saveBookmark);
+
+      document.getElementById('iconType').addEventListener('change', (e) => {
+        const emojiPicker = document.getElementById('emojiPicker');
+        if (e.target.value === 'emoji') emojiPicker.classList.add('show');
+        else emojiPicker.classList.remove('show');
+      });
+
+      document.querySelectorAll('.emoji-item').forEach(item => {
+        item.addEventListener('click', () => {
+          document.getElementById('linkIcon').value = item.dataset.emoji;
+        });
+      });
+
+      document.getElementById('addEngineBtn').addEventListener('click', () => {
+        document.getElementById('addEngineModal').classList.add('show');
+      });
+
+      document.getElementById('cancelEngineButton').addEventListener('click', () => closeModal(document.getElementById('addEngineModal')));
+      document.getElementById('saveEngineButton').addEventListener('click', addSearchEngine);
+
+      document.getElementById('exportConfigBtn').addEventListener('click', exportConfig);
+      document.getElementById('importConfigBtn').addEventListener('click', () => document.getElementById('configFileInput').click());
+      document.getElementById('configFileInput').addEventListener('change', (e) => {
+        if (e.target.files.length > 0) importConfig(e.target.files[0]);
+      });
+
+      document.getElementById('resetConfigBtn').addEventListener('click', resetConfig);
+      document.getElementById('copyConfigBtn').addEventListener('click', copyConfigText);
+      document.getElementById('importFromTextBtn').addEventListener('click', importConfigFromText);
+
+      document.getElementById('importBookmarkFileBtn').addEventListener('click', () => document.getElementById('bookmarkFileInput').click());
+      document.getElementById('bookmarkFileInput').addEventListener('change', (e) => {
+        if (e.target.files.length > 0) importBookmarkFile(e.target.files[0]);
+      });
+
+      document.getElementById('saveBackgroundBtn').addEventListener('click', () => {
+        const backgroundUrl = document.getElementById('backgroundImageUrl').value.trim();
+        if (backgroundUrl) {
+          // 验证 URL 是否有效
+          if (!isValidUrl(backgroundUrl)) {
+            alert('请输入有效的图片 URL 地址');
+            return;
+          }
+          // 保存背景图 URL 到 localStorage
+          localStorage.setItem('backgroundImageUrl', backgroundUrl);
+          // 应用背景图到页面
+          document.body.style.backgroundImage = `url(${backgroundUrl})`;
+          document.body.style.backgroundSize = 'cover';
+          document.body.style.backgroundRepeat = 'no-repeat';
+          document.body.style.backgroundPosition = 'center';
+          alert('背景图片已保存并应用！');
+        } else {
+          // 如果为空，恢复默认渐变背景
+          localStorage.removeItem('backgroundImageUrl');
+          document.body.style.backgroundImage = 'none';
+          document.body.style.background = 'var(--bg-gradient-light)';
+          alert('已恢复默认背景！');
+        }
+      });
+
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal(modal);
+        });
+      });
+
+      // 绑定主题切换开关按钮
+      const themeSwitch = document.getElementById('themeSwitch');
+      themeSwitch.addEventListener('change', (e) => {
+        const isDark = e.target.checked;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      });
+
+      // 检测系统主题变化
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const isDark = e.matches;
+        themeSwitch.checked = isDark;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      });
+
+      // 初始化时检测系统主题
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      themeSwitch.checked = prefersDark;
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+
+      // 页面加载时检查并应用保存的背景图
+      const savedBackgroundUrl = localStorage.getItem('backgroundImageUrl');
+      if (savedBackgroundUrl) {
+        document.body.style.backgroundImage = `url(${savedBackgroundUrl})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundPosition = 'center';
+      }
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove('show');
+      switch (modal.id) {
+        case 'addLinkModal': resetForm(); break;
+        case 'editCategoryModal':
+          document.getElementById('categoryName').value = '';
+          document.getElementById('categoryId').value = '';
+          break;
+        case 'addEngineModal':
+          document.getElementById('engineName').value = '';
+          document.getElementById('engineUrl').value = '';
+          break;
+        case 'siteSearchModal':
+          document.getElementById('siteSearchInput').value = '';
+          document.getElementById('siteSearchResults').innerHTML = '';
+          break;
+        case 'categoryModal':
+          // No specific reset needed for category modal
+          break;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeSearch();
+      initializeSiteSearch();
+      initializeBookmarks();
+      initializeEventListeners();
+      initializeCategoriesList();
+    });
+
+    function isValidUrl(str) {
+      try {
+        return str.startsWith('http://') || str.startsWith('https://') || str.startsWith('data:image/');
+      } catch (e) {
+        return false;
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </body>
 
 </html>

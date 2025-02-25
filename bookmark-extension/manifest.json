@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "导航书签扩展",
+  "version": "1.0",
+  "description": "从浏览器书签页添加书签到导航页面",
+  "permissions": [
+    "bookmarks",
+    "contextMenus",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "48": "icon.png"
+  }
+}
