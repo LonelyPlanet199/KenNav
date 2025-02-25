@@ -60,8 +60,8 @@
       --toggle-bg: #4a5568;
       --toggle-active-bg: #4338ca;
       --toggle-thumb: #e2e8f0;
-      --search-bg: #2d3748; /* 暗模式下搜索框背景改为深色 */
-      --search-text-color: #e2e8f0; /* 暗模式下文字颜色为白色 */
+      --search-bg: #2d3748;
+      --search-text-color: #e2e8f0;
     }
 
     /* 全局样式 */
@@ -73,7 +73,6 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: var(--bg-gradient-light);
       color: var(--text-color);
       -webkit-touch-callout: none;
       -webkit-user-select: none;
@@ -87,10 +86,20 @@
       background-position: center;
     }
 
+    /* 默认背景：暗黑模式使用暗色，亮模式使用浅色 */
+    body:not(.has-custom-background) {
+      background: var(--bg-gradient-light);
+    }
+
+    /* 自定义背景时移除默认背景 */
+    body.has-custom-background {
+      background: none;
+    }
+
+    /* 容器样式：移除模糊和渐变背景，确保不覆盖 body 的背景 */
     .container {
       text-align: center;
-      backdrop-filter: blur(20px);
-      background: var(--container-bg-light);
+      background: none; /* 移除默认渐变背景 */
       padding: 1rem;
       width: 100%;
       height: 100vh;
@@ -105,7 +114,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--container-before-light);
+      background: none; /* 移除伪元素的背景 */
       z-index: -1;
     }
 
@@ -1686,41 +1695,24 @@
       .drag-handle { padding: 0.5rem; margin: -0.5rem; }
     }
 
-    /* 媒体查询：根据系统偏好切换模式 */
+    /* 媒体查询：根据系统偏好切换模式，仅当没有自定义背景时应用 */
     @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-light: #1a202c;
-        --bg-gradient-light: linear-gradient(135deg, #1a202c, #2d3748);
-        --container-bg-light: linear-gradient(135deg, rgba(36, 41, 54, 0.8), rgba(36, 41, 54, 0.6));
-        --container-before-light: linear-gradient(135deg, rgba(67, 56, 202, 0.05), rgba(88, 28, 135, 0.05));
-        --text-color: #e2e8f0;
-        --secondary-text-color: #a0aec0;
-        --button-bg: linear-gradient(135deg, #4338ca, #582c87);
-        --button-hover-bg: linear-gradient(135deg, #3730a3, #4a1d80);
-        --modal-bg: #2d3748;
-        --border-color: #4a5568;
-        --shadow-color: rgba(0, 0, 0, 0.3);
-        --header-bg: rgba(67, 56, 202, 0.1);
-        --header-hover-bg: rgba(67, 56, 202, 0.2);
-        --action-bg: rgba(67, 56, 202, 0.1);
-        --action-hover-bg: rgba(67, 56, 202, 0.2);
-        --cancel-bg: #4a5568;
-        --cancel-hover-bg: #2d3748;
-        --save-bg: #4338ca;
-        --save-hover-bg: #3730a3;
-        --toggle-bg: #4a5568;
-        --toggle-active-bg: #4338ca;
-        --toggle-thumb: #e2e8f0;
-        --search-bg: #2d3748; /* 暗模式下搜索框背景保持深色 */
-        --search-text-color: #e2e8f0; /* 暗模式下文字颜色为白色 */
+      :root:not(.has-custom-background) {
+        --bg-gradient-light: linear-gradient(135deg, #1a202c, #2d3748); /* 暗黑模式默认暗色背景 */
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not(.has-custom-background) {
+        --bg-gradient-light: linear-gradient(135deg, #f6f8fd, #f0f3fa); /* 亮模式默认浅色背景 */
       }
     }
 
     /* 主题切换开关按钮样式 */
     .theme-toggle {
       position: absolute;
-      top: 2rem; /* 调整为 2rem */
-      left: calc(100% + 5rem); /* 调整为 5rem */
+      top: 2rem;
+      left: calc(100% + 5rem);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -1833,7 +1825,6 @@
       </div>
     </main>
   </div>
-
   <div class="modal" id="addLinkModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -2304,7 +2295,7 @@
       function navigateToSelected() {
         if (selectedIndex >= 0 && selectedIndex < searchResultItems.length) {
           const url = searchResultItems[selectedIndex].dataset.url;
-          window.open(url, '_blank'); // 在新标签页打开
+          window.open(url, '_blank');
         }
       }
 
@@ -2636,6 +2627,13 @@
     function resetConfig() {
       if (confirm('确定要重置所有配置吗？这将删除所有自定义设置，包括搜索引擎、快速访问链接等。')) {
         localStorage.clear();
+        document.body.classList.remove('has-custom-background');
+        document.body.style.backgroundImage = 'none';
+        // 恢复默认背景，根据当前模式应用
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.style.background = prefersDark 
+          ? 'linear-gradient(135deg, #1a202c, #2d3748)' 
+          : 'linear-gradient(135deg, #f6f8fd, #f0f3fa)';
         alert('配置已重置，页面将刷新。');
         location.reload();
       }
@@ -3237,7 +3235,7 @@
 
       document.getElementById('addCategoryBtn').addEventListener('click', () => {
         document.getElementById('categoryModal').classList.add('show');
-        initializeCategoriesList(); // 确保在显示时初始化分组列表
+        initializeCategoriesList();
       });
 
       document.getElementById('settingsButton').addEventListener('click', () => {
@@ -3305,24 +3303,26 @@
       document.getElementById('saveBackgroundBtn').addEventListener('click', () => {
         const backgroundUrl = document.getElementById('backgroundImageUrl').value.trim();
         if (backgroundUrl) {
-          // 验证 URL 是否有效
           if (!isValidUrl(backgroundUrl)) {
             alert('请输入有效的图片 URL 地址');
             return;
           }
-          // 保存背景图 URL 到 localStorage
           localStorage.setItem('backgroundImageUrl', backgroundUrl);
-          // 应用背景图到页面
           document.body.style.backgroundImage = `url(${backgroundUrl})`;
           document.body.style.backgroundSize = 'cover';
           document.body.style.backgroundRepeat = 'no-repeat';
           document.body.style.backgroundPosition = 'center';
+          document.body.classList.add('has-custom-background');
           alert('背景图片已保存并应用！');
         } else {
-          // 如果为空，恢复默认渐变背景
           localStorage.removeItem('backgroundImageUrl');
           document.body.style.backgroundImage = 'none';
-          document.body.style.background = 'var(--bg-gradient-light)';
+          document.body.classList.remove('has-custom-background');
+          // 恢复默认背景，根据当前模式应用
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.body.style.background = prefersDark 
+            ? 'linear-gradient(135deg, #1a202c, #2d3748)' 
+            : 'linear-gradient(135deg, #f6f8fd, #f0f3fa)';
           alert('已恢复默认背景！');
         }
       });
@@ -3334,32 +3334,22 @@
         });
       });
 
-      // 绑定主题切换开关按钮
-      const themeSwitch = document.getElementById('themeSwitch');
-      themeSwitch.addEventListener('change', (e) => {
-        const isDark = e.target.checked;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      });
-
-      // 检测系统主题变化
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        const isDark = e.matches;
-        themeSwitch.checked = isDark;
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      });
-
-      // 初始化时检测系统主题
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      themeSwitch.checked = prefersDark;
       document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
 
-      // 页面加载时检查并应用保存的背景图
+      // 初始化默认背景
       const savedBackgroundUrl = localStorage.getItem('backgroundImageUrl');
       if (savedBackgroundUrl) {
         document.body.style.backgroundImage = `url(${savedBackgroundUrl})`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundPosition = 'center';
+        document.body.classList.add('has-custom-background');
+      } else {
+        document.body.style.background = prefersDark 
+          ? 'linear-gradient(135deg, #1a202c, #2d3748)' 
+          : 'linear-gradient(135deg, #f6f8fd, #f0f3fa)';
+        document.body.classList.remove('has-custom-background');
       }
     }
 
@@ -3380,7 +3370,6 @@
           document.getElementById('siteSearchResults').innerHTML = '';
           break;
         case 'categoryModal':
-          // No specific reset needed for category modal
           break;
       }
     }
